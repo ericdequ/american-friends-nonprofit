@@ -8,7 +8,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${baseUrl}/`,
       changeFrequency: "weekly",
       priority: 1,
-      images: [`${baseUrl}/images/logo.jpg`, `${baseUrl}/images/hero.jpg`],
+      images: [`${baseUrl}/images/logo.webp`, `${baseUrl}/images/hero.webp`],
     },
   ];
 }

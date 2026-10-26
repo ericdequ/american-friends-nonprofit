@@ -35,11 +35,11 @@ export function organizationJsonLd() {
     url: baseUrl,
     logo: {
       "@type": "ImageObject",
-      url: `${baseUrl}/brand/mark.png`,
+      url: `${baseUrl}/brand/mark.webp`,
       width: 512,
       height: 512,
     },
-    image: `${baseUrl}/images/logo.jpg`,
+    image: `${baseUrl}/images/logo.webp`,
     description: site.seo.description,
     slogan: site.tagline,
     areaServed: { "@type": "Country", name: "Ukraine" },

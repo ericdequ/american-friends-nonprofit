@@ -179,7 +179,7 @@ export const site = {
       partner: "[Partner organization name]",
       body: "A convoy of vehicles loaded with medical supplies, driving from Western Europe into Ukraine to restock clinics and hospitals that need it most.",
       goal: "[$XX,XXX goal]",
-      image: "", // optional: put a photo in /public and write "/photo-name.jpg"
+      image: "", // optional: put a photo in /public and write "/images/photo-name.webp"
     },
     {
       title: "[Next project]",

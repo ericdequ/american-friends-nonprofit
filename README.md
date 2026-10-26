@@ -39,7 +39,7 @@ Everything below is a placeholder on the site right now. Each item lists **what 
 | --- | --- | --- |
 | 12 | Fundraising goal (e.g. "$25,000 goal") | `projects` → caravan `goal` |
 | 13 | Dates and route (where it starts and which cities it reaches) | `projects` → caravan `body` |
-| 14 | A photo (supplies, vehicles, or the team) | Put it in `public/images/`, then set `image: "/images/caravan.jpg"` |
+| 14 | A photo (supplies, vehicles, or the team) | Put it in `public/images/`, then set `image: "/images/caravan.webp"` |
 | 15 | Status once it starts: `"Upcoming"`, `"Active"` or `"Completed"` | `projects` → caravan `status` |
 
 ### 🟢 Nice to have
@@ -52,7 +52,7 @@ Everything below is a placeholder on the site right now. Each item lists **what 
 | 19 | Share of donations that goes to projects (e.g. "volunteer-run, 95% to projects") | `faq` → last answer |
 | 20 | Social media links (Instagram, Facebook, X, LinkedIn) | `social` |
 | 21 | Board photos (optional; the site shows initials until then) | ask your web person to add |
-| 22 | Final logo, if it changes | replace `public/images/logo.jpg` (same file name) |
+| 22 | Final logo, if it changes | replace `public/images/logo.webp` (same file name) |
 | 23 | Google Search Console verification code (see "Google & link sharing" below) | `seo.googleVerification` |
 | 24 | X / Twitter handle, if you make one | `seo.twitterHandle` |
 
@@ -72,14 +72,16 @@ Everything below is a placeholder on the site right now. Each item lists **what 
 
 | File | Used for |
 | --- | --- |
-| `public/images/hero.jpg` | Big illustration at the top |
-| `public/images/logo.jpg` | Logo next to the mission statement |
-| `public/images/volunteers.jpg` | "How it works" picture |
+| `public/images/hero.webp` | Big illustration at the top |
+| `public/images/logo.webp` | Logo next to the mission statement |
+| `public/images/volunteers.webp` | "How it works" picture |
 | `app/opengraph-image.jpg` | Preview card when the link is shared in texts, Facebook, LinkedIn, WhatsApp, etc. (1200×630) |
 | `app/twitter-image.jpg` | Same preview card for X / Twitter |
 | `app/opengraph-image.alt.txt` | Description of the preview card for screen readers |
 
-The original full-size artwork is kept in `public/` with its original file names.
+The original full-size artwork is kept in `public/` with its original file names, as `.webp` (about 10× smaller than the PNGs). To add a new photo, convert it to WebP first (e.g. at squoosh.app), or drop in a JPG/PNG and it still works.
+
+**Stays PNG/JPG on purpose:** `app/icon.png`, `app/apple-icon.png`, `app/opengraph-image.jpg` and `app/twitter-image.jpg`. Browser tabs, iPhones and link previews in texts and social apps need those formats.
 
 ### Brand SVGs (`public/brand/`)
 
@@ -92,8 +94,18 @@ Crisp vector versions of the logo that look sharp at any size. Use these for pri
 | `logo-horizontal-white.svg` | Same, for dark backgrounds | Footer |
 | `aid-box.svg` | Aid box with a heart | Project cards with no photo yet |
 | `flag-wave.svg` | Blue and yellow wave | Bottom of the donate section |
-| `mark.png`, `mark-192.png`, `mark-maskable.png` | PNG copies of the heart | Google logo, phone home-screen icon |
+| `mark.webp`, `mark-192.webp`, `mark-maskable.webp` | WebP copies of the heart | Google logo, phone home-screen icon |
 | `app/icon.svg`, `app/icon.png`, `app/apple-icon.png` | Heart without stars | Browser tab, iPhone home screen |
+
+The original Next.js starter file names in `public/` are kept, now with brand artwork:
+
+| File | Was | Now |
+| --- | --- | --- |
+| `public/next.svg` | Next.js wordmark | "American Friends for Ukraine" wordmark |
+| `public/vercel.svg` | Vercel triangle | Heart logo |
+| `public/file.svg` | File icon | Aid box |
+| `public/globe.svg` | Globe icon | Globe in Ukraine colors with a heart pin |
+| `public/window.svg` | Browser window icon | Browser window showing the heart logo |
 
 ## Google & link sharing
 

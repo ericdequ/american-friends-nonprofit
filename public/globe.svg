@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="American Friends for Ukraine: worldwide"><title>American Friends for Ukraine</title>
+<defs><clipPath id="gc"><circle cx="60" cy="62" r="50"/></clipPath></defs>
+<g clip-path="url(#gc)"><rect x="0" y="0" width="120" height="62" fill="#0057B7"/><rect x="0" y="62" width="120" height="60" fill="#FFD500"/></g>
+<g fill="none" stroke="#FFFFFF" stroke-width="2.5" opacity=".85">
+<circle cx="60" cy="62" r="50"/><ellipse cx="60" cy="62" rx="22" ry="50"/><path d="M10 62h100M17 37h86M17 87h86M60 12v100"/></g>
+<circle cx="60" cy="62" r="50" fill="none" stroke="#0A2348" stroke-width="3"/>
+<g transform="translate(70 4) scale(1.9)"><path d="M12 21s-7.5-4.6-9.6-9.3C.9 8.2 3 4.5 6.6 4.5c2.2 0 3.6 1.2 4.4 2.4.8-1.2 2.2-2.4 4.4-2.4 3.6 0 5.7 3.7 4.2 7.2C19.5 16.4 12 21 12 21z" fill="#C8102E" stroke="#FFFFFF" stroke-width="1.4"/></g>
+</svg>

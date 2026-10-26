@@ -5,9 +5,9 @@
  */
 import type { CSSProperties, ReactNode } from "react";
 import Image from "next/image";
-import heroImage from "@/public/images/hero.jpg";
-import logoImage from "@/public/images/logo.jpg";
-import volunteersImage from "@/public/images/volunteers.jpg";
+import heroImage from "@/public/images/hero.webp";
+import logoImage from "@/public/images/logo.webp";
+import volunteersImage from "@/public/images/volunteers.webp";
 import { site } from "@/content/site";
 import { organizationJsonLd } from "@/content/seo";
 import MobileMenu from "./MobileMenu";

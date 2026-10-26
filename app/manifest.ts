@@ -13,9 +13,9 @@ export default function manifest(): MetadataRoute.Manifest {
     theme_color: "#0057b7",
     icons: [
       { src: "/icon.svg", sizes: "any", type: "image/svg+xml" },
-      { src: "/brand/mark-192.png", sizes: "192x192", type: "image/png" },
-      { src: "/brand/mark.png", sizes: "512x512", type: "image/png" },
-      { src: "/brand/mark-maskable.png", sizes: "512x512", type: "image/png", purpose: "maskable" },
+      { src: "/brand/mark-192.webp", sizes: "192x192", type: "image/webp" },
+      { src: "/brand/mark.webp", sizes: "512x512", type: "image/webp" },
+      { src: "/brand/mark-maskable.webp", sizes: "512x512", type: "image/webp", purpose: "maskable" },
     ],
   };
 }
