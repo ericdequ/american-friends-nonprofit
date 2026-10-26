@@ -1,26 +1,386 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* Brand colors. Change these to restyle the whole site. */
+@theme {
+  --color-ink: #0e1a2b;
+  --color-muted: #566173;
+  --color-paper: #fefaf4; /* matches the hero illustration background */
+  --color-sand: #f5efe3;
+  --color-line: #e8e0d0;
+  --color-navy: #0a2348;
+  --color-night: #030812;
+  --color-ua-blue: #0057b7;
+  --color-ua-yellow: #ffd500;
+  --color-us-red: #b22234;
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
+
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-paper);
+  color: var(--color-ink);
+}
+
+details > summary {
+  list-style: none;
+}
+details > summary::-webkit-details-marker {
+  display: none;
+}
+details[open] .faq-icon {
+  transform: rotate(45deg);
+}
+
+/* ============================================================
+   Donation pop-up
+   Centered card on computers, slide-up sheet on phones.
+   Animates in and out; the page behind stops scrolling.
+   ============================================================ */
+
+html:has(dialog[open]) {
+  overflow: hidden;
+}
+
+.donate-modal {
+  width: min(32rem, calc(100vw - 2rem));
+  max-height: min(52rem, calc(100svh - 3rem));
+  margin: auto;
+  padding: 0;
+  border: 0;
+  border-radius: 1.75rem;
+  background: #fff;
+  color: var(--color-ink);
+  overflow: hidden;
+  box-shadow: 0 40px 100px -30px rgb(3 8 18 / 0.6);
+  opacity: 0;
+  transform: translateY(28px) scale(0.96);
+  transition:
+    opacity 0.3s ease,
+    transform 0.45s var(--ease-out-soft),
+    overlay 0.45s allow-discrete,
+    display 0.45s allow-discrete;
+}
+.donate-modal[open] {
+  opacity: 1;
+  transform: none;
+}
+@starting-style {
+  .donate-modal[open] {
+    opacity: 0;
+    transform: translateY(28px) scale(0.96);
+  }
+}
+.donate-modal::backdrop {
+  background: rgb(3 8 18 / 0);
+  backdrop-filter: blur(0);
+  transition:
+    background 0.35s ease,
+    backdrop-filter 0.35s ease,
+    overlay 0.45s allow-discrete,
+    display 0.45s allow-discrete;
+}
+.donate-modal[open]::backdrop {
+  background: rgb(3 8 18 / 0.55);
+  backdrop-filter: blur(6px);
+}
+@starting-style {
+  .donate-modal[open]::backdrop {
+    background: rgb(3 8 18 / 0);
+    backdrop-filter: blur(0);
+  }
+}
+
+@media (max-width: 639px) {
+  .donate-modal {
+    width: 100%;
+    max-width: 100%;
+    max-height: 92svh;
+    margin: auto 0 0;
+    border-radius: 1.75rem 1.75rem 0 0;
+    transform: translateY(100%);
+    transition:
+      opacity 0.2s ease,
+      transform 0.5s var(--ease-out-soft),
+      overlay 0.5s allow-discrete,
+      display 0.5s allow-discrete;
+  }
+  @starting-style {
+    .donate-modal[open] {
+      opacity: 1;
+      transform: translateY(100%);
+    }
+  }
+}
+.donate-modal > div {
+  max-height: inherit;
+}
+
+/* ============================================================
+   Animations
+   - .rise / .word / .float-in : play once when the page loads.
+   - .reveal       : slides up as it scrolls in, fades as it leaves.
+   - .reveal-image : picture "opens up" from a rounded window and
+                     settles from a slight zoom.
+   - .grow-x       : lines that draw themselves across.
+   - style="--i:N" : staggers items in a row (0, 1, 2...).
+   Everything is CSS (fast, runs on the GPU) and switches off for
+   people who turn on "reduce motion".
+   ============================================================ */
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes word {
+  from {
+    opacity: 0;
+    transform: translateY(0.45em) rotate(2deg);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+  }
+}
+@keyframes float-in {
+  from {
+    opacity: 0;
+    transform: translateX(40px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes reveal-in {
+  from {
+    opacity: 0;
+    transform: translateY(56px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes reveal-out {
+  from {
+    opacity: 1;
+    transform: none;
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-28px) scale(0.98);
+  }
+}
+@keyframes image-in {
+  from {
+    clip-path: inset(10% 8% 10% 8% round 2rem);
+    transform: scale(1.06);
+    opacity: 0.4;
+  }
+  to {
+    clip-path: inset(0 0 0 0 round 1.5rem);
+    transform: none;
+    opacity: 1;
+  }
+}
+@keyframes image-out {
+  to {
+    opacity: 0.2;
+    transform: scale(0.96);
+  }
+}
+@keyframes grow-x {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+@keyframes drift {
+  to {
+    transform: translateY(-14%);
+  }
+}
+@keyframes hero-out {
+  to {
+    opacity: 0;
+    transform: translateY(-60px);
+  }
+}
+@keyframes header-lift {
+  to {
+    box-shadow: 0 8px 30px -12px rgb(14 26 43 / 0.18);
+    border-color: rgb(14 26 43 / 0.08);
+  }
+}
+@keyframes progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+@keyframes fab-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.9);
+    visibility: hidden;
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    visibility: visible;
+  }
+}
+@keyframes glow {
+  50% {
+    transform: translate(-6%, 8%) scale(1.15);
+  }
+}
+
+.grow-x {
+  transform-origin: left;
+}
+.scroll-progress,
+.fab {
+  display: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .rise {
+    animation: rise 0.9s var(--ease-out-soft) both;
+    animation-delay: var(--delay, 0ms);
+  }
+  .word {
+    display: inline-block;
+    animation: word 0.9s var(--ease-out-soft) both;
+    animation-delay: calc(80ms + var(--w, 0) * 70ms);
+  }
+  .float-in {
+    animation: float-in 1.1s var(--ease-out-soft) both;
+    animation-delay: var(--delay, 150ms);
+  }
+  .glow {
+    animation: glow 12s ease-in-out infinite;
+  }
+
+  /* Scroll-linked animations, in browsers that support them (Chrome, Edge,
+     Safari). Firefox gets the backup below via ScrollFx.tsx. */
+  @supports (animation-timeline: view()) {
+    .reveal {
+      animation-name: reveal-in, reveal-out;
+      animation-duration: auto, auto;
+      animation-timing-function: ease-out, ease-in;
+      animation-fill-mode: both, forwards;
+      animation-timeline: view(), view();
+      animation-range:
+        entry calc(var(--i, 0) * 6%) cover calc(28% + var(--i, 0) * 6%),
+        exit 35% exit 100%;
+    }
+    .reveal-image {
+      animation-name: image-in, image-out;
+      animation-duration: auto, auto;
+      animation-timing-function: var(--ease-out-soft), ease-in;
+      animation-fill-mode: both, forwards;
+      animation-timeline: view(), view();
+      animation-range:
+        entry 0% cover 40%,
+        exit 30% exit 100%;
+    }
+    .grow-x {
+      animation: grow-x linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 35%;
+    }
+    .drift {
+      animation: drift linear both;
+      animation-timeline: view();
+      animation-range: cover 0% cover 100%;
+    }
+    .hero-out {
+      animation: hero-out linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 70vh;
+    }
+
+    .site-header {
+      animation: header-lift linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 140px;
+    }
+
+    /* Thin progress bar in flag colors along the top of the screen. */
+    .scroll-progress {
+      display: flex;
+      position: fixed;
+      inset: 0 0 auto;
+      height: 3px;
+      z-index: 50;
+      transform-origin: left;
+      animation: progress linear both;
+      animation-timeline: scroll(root);
+    }
+
+    /* Floating Donate button: appears after you scroll past the top. */
+    .fab {
+      display: inline-flex;
+      animation: fab-in linear both;
+      animation-timeline: scroll(root);
+      animation-range: 80vh 100vh;
+    }
+  }
+}
+
+/* Backup for browsers without scroll animations (see ScrollFx.tsx). */
+@media (prefers-reduced-motion: no-preference) {
+  .io-fx .reveal,
+  .io-fx .reveal-image {
+    opacity: 0;
+    transform: translateY(40px) scale(0.98);
+    transition:
+      opacity 0.8s var(--ease-out-soft),
+      transform 0.9s var(--ease-out-soft);
+    transition-delay: calc(var(--i, 0) * 90ms);
+  }
+  .io-fx .grow-x {
+    transform: scaleX(0);
+    transition: transform 1s var(--ease-out-soft);
+  }
+  .io-fx .in {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Gentle lift on hover, only on devices with a mouse. */
+@media (hover: hover) {
+  /* uses "translate" so it combines with the scroll animations' "transform" */
+  .lift {
+    transition:
+      translate 0.35s var(--ease-out-soft),
+      box-shadow 0.35s var(--ease-out-soft);
+  }
+  .lift:hover {
+    translate: 0 -4px;
+    box-shadow: 0 18px 40px -20px rgb(14 26 43 / 0.35);
+  }
 }

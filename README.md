@@ -1,36 +1,158 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# American Friends for Ukraine: website
 
-## Getting Started
+A one-page site for taking donations and showing the projects we fund.
 
-First, run the development server:
+## Run it on your computer
 
 ```bash
+npm install     # first time only
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then open http://localhost:3000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## ✅ Information we still need
 
-## Learn More
+Everything below is a placeholder on the site right now. Each item lists **what we need**, **where it shows up**, and **the line to edit** in [`content/site.ts`](content/site.ts).
 
-To learn more about Next.js, take a look at the following resources:
+### 🔴 Needed before launch
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| # | What we need | Where it shows on the site | Edit in `content/site.ts` |
+| --- | --- | --- | --- |
+| 1 | **Donation page link** (Zeffy, Givebutter, Donorbox, PayPal Giving Fund, etc.) | "Donate now", the $25–$500 buttons, "Other amount" | `donate.primaryUrl` and `donate.options` → "Give online" `url` |
+| 2 | **Monthly giving link** (often the same platform) | "Start monthly gift" button | `donate.options` → "Give monthly" `url` |
+| 3 | **501(c)(3) status**: pending or approved | Donate section + footer legal line | `legal.taxStatus` (`"pending"` or `"approved"`) |
+| 4 | **EIN** (federal tax ID, format XX-XXXXXXX) | Donate section + footer | `legal.ein` |
+| 5 | **Board-approved mission statement** | "Our mission" section | `mission.statement` (currently a draft) |
+| 6 | **Contact email** | Footer, "Email us" button | `EMAIL` near the top |
+| 7 | **Mailing address** for checks | Donate section + footer | `mailingAddress` |
+| 8 | **Partner organization name** (Luke's organization) | Project cards + "Our partner on the ground" | `partner.name` and each project's `partner` |
+| 9 | **Partner description**: who they are, how long they've worked, what they do | "Our partner on the ground" | `partner.body` |
+| 10 | **Board members**: names and roles | "Our board" | `team` |
+| 11 | **Confirm the tax-deductible FAQ answer** with your accountant | FAQ | `faq` → first answer (remove "[Confirm before launch]") |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 🟡 Medical Supply Caravan details
 
-## Deploy on Vercel
+| # | What we need | Edit in `content/site.ts` |
+| --- | --- | --- |
+| 12 | Fundraising goal (e.g. "$25,000 goal") | `projects` → caravan `goal` |
+| 13 | Dates and route (where it starts and which cities it reaches) | `projects` → caravan `body` |
+| 14 | A photo (supplies, vehicles, or the team) | Put it in `public/images/`, then set `image: "/images/caravan.jpg"` |
+| 15 | Status once it starts: `"Upcoming"`, `"Active"` or `"Completed"` | `projects` → caravan `status` |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 🟢 Nice to have
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| # | What we need | Edit in `content/site.ts` |
+| --- | --- | --- |
+| 16 | Domain name (e.g. americanfriendsforukraine.org) | `siteUrl` |
+| 17 | Second project: title, one or two sentences, goal | `projects` → "[Next project]" (or delete that block) |
+| 18 | Partner's website | `partner.url` |
+| 19 | Share of donations that goes to projects (e.g. "volunteer-run, 95% to projects") | `faq` → last answer |
+| 20 | Social media links (Instagram, Facebook, X, LinkedIn) | `social` |
+| 21 | Board photos (optional; the site shows initials until then) | ask your web person to add |
+| 22 | Final logo, if it changes | replace `public/images/logo.jpg` (same file name) |
+| 23 | Google Search Console verification code (see "Google & link sharing" below) | `seo.googleVerification` |
+| 24 | X / Twitter handle, if you make one | `seo.twitterHandle` |
+
+**At launch:** set `showPreviewBanner: false` to remove the "Preview site" bar at the top.
+
+---
+
+## How to change things
+
+**All text and links live in [`content/site.ts`](content/site.ts).** You don't need to edit any other file.
+
+- Text in `[square brackets]` is a placeholder that still needs real info.
+- Any link left as `""` shows a "Coming soon" button instead of a broken link.
+- To add a project, FAQ or board member: copy one `{ ... }` block, paste it below, and change the text. Mind the commas.
+
+**To swap a picture:** replace the file in `public/images/` with a new one, **keeping the same file name**.
+
+| File | Used for |
+| --- | --- |
+| `public/images/hero.jpg` | Big illustration at the top |
+| `public/images/logo.jpg` | Logo next to the mission statement |
+| `public/images/volunteers.jpg` | "How it works" picture |
+| `app/opengraph-image.jpg` | Preview card when the link is shared in texts, Facebook, LinkedIn, WhatsApp, etc. (1200×630) |
+| `app/twitter-image.jpg` | Same preview card for X / Twitter |
+| `app/opengraph-image.alt.txt` | Description of the preview card for screen readers |
+
+The original full-size artwork is kept in `public/` with its original file names.
+
+### Brand SVGs (`public/brand/`)
+
+Crisp vector versions of the logo that look sharp at any size. Use these for print, social profiles, email signatures, etc.
+
+| File | What it is | Used on the site |
+| --- | --- | --- |
+| `mark.svg` | Heart of the U.S. and Ukrainian flags with gold stars | Header logo |
+| `logo-horizontal.svg` | Heart + "American Friends for Ukraine", for light backgrounds | — (for print, email, partners) |
+| `logo-horizontal-white.svg` | Same, for dark backgrounds | Footer |
+| `aid-box.svg` | Aid box with a heart | Project cards with no photo yet |
+| `flag-wave.svg` | Blue and yellow wave | Bottom of the donate section |
+| `mark.png`, `mark-192.png`, `mark-maskable.png` | PNG copies of the heart | Google logo, phone home-screen icon |
+| `app/icon.svg`, `app/icon.png`, `app/apple-icon.png` | Heart without stars | Browser tab, iPhone home screen |
+
+## Google & link sharing
+
+Already set up, nothing to install:
+
+- **Google:** page title and description, a sitemap (`/sitemap.xml`), `robots.txt`, a canonical link, and structured data that tells Google this is a nonprofit (name, logo, contact, donate link, FAQ). Placeholder values in `[brackets]` are left out of the structured data automatically.
+- **Link previews:** sharing the link in iMessage, WhatsApp, Facebook, LinkedIn, Slack or X shows the preview card, title and description.
+- **Phones:** "Add to Home Screen" uses the heart icon and brand colors.
+
+Edit the Google title and description in `content/site.ts` under `seo`.
+
+**After launch (10 minutes):**
+1. Set `siteUrl` in `content/site.ts` to your real domain. On Vercel, preview links already work before you have a domain.
+2. Go to [Google Search Console](https://search.google.com/search-console), add your domain, and verify it: copy the code from the "HTML tag" option into `seo.googleVerification`, redeploy, then click Verify.
+3. In Search Console, open **Sitemaps** and submit `sitemap.xml`.
+4. Check the preview card with the [Facebook Sharing Debugger](https://developers.facebook.com/tools/debug/) and [LinkedIn Post Inspector](https://www.linkedin.com/post-inspector/). They also clear old cached previews.
+5. Check the structured data with Google's [Rich Results Test](https://search.google.com/test/rich-results).
+6. Create a free [Google Business Profile](https://business.google.com) for the organization. It helps people find you when they search your name.
+
+**Colors** live at the top of `app/globals.css`.
+
+## Donations
+
+Every Donate button on the site opens the **donation pop-up**: a centered card on computers and a slide-up sheet on phones.
+
+**Connecting your donation platform** (in `content/site.ts` → `donate`). Fill in **one** of these:
+
+| Option | What to paste | Works with |
+| --- | --- | --- |
+| A. `embedCode` | The full "embed" / "widget" code your platform gives you (`<script>` + `<div>` or `<iframe>`) | Givebutter widgets, Donorbox, Classy, Zeffy, Every.org, PayPal Donate SDK, Fundraise Up, most others |
+| B. `embedUrl` | Just the address inside the platform's `<iframe src="...">` | Zeffy, Donorbox, Givebutter, Every.org, GoFundMe Pro |
+| C. `primaryUrl` | A plain checkout link | Anything, including PayPal, Stripe Payment Links, Venmo, Cash App |
+
+- With **A or B**, the platform's own form shows inside the pop-up. It only loads when someone opens the pop-up, so the page stays fast.
+- With **C**, the pop-up shows amount buttons and a "Donate $100 →" button that opens your link in a new tab. Add `monthlyUrl` for a One-time / Monthly switch, and `amountParam` if your platform can pre-fill the amount.
+- With **nothing filled in** (right now), the pop-up shows "Online giving opens soon" with mail-a-check and email options.
+- Edit the **"What a gift can do"** lines under `impact`. They're marked [Example] until the board confirms real figures.
+
+**Sharing the donation form:**
+
+| Link | What it does |
+| --- | --- |
+| `yoursite.org/donate` | A standalone donation page. Best for social media posts, Instagram "link in bio", QR codes and emails. |
+| `yoursite.org/#give` | Opens the site with the donation pop-up already open. |
+| ⧉ button in the pop-up | Opens the donation form in its own small window. |
+
+The pop-up and `/donate` page also have share buttons: copy link, the phone's share menu, WhatsApp, Facebook, X, text message and email.
+
+**Making any new button open the pop-up:** give the link `href="/donate"` and a `data-donate` attribute. `data-donate="Medical Supply Caravan"` shows what the gift supports, and `data-amount="50"` pre-selects $50.
+
+## Animations and speed
+
+- **On load:** the headline appears word by word, then the text, buttons and illustration follow.
+- **On scroll:** every section has an entrance and an exit. Headings slide up with a small accent line drawing in, images open up from a rounded window, cards stagger in one after another, flag stripes draw across, and items gently fade out as they leave the top of the screen.
+- **Extras:** a blue and yellow progress bar runs along the top, a floating ♥ Donate button appears once you scroll past the top, and cards lift on hover.
+- **Speed:** it's all CSS with no animation library. The page is about 390 KB, and on a slow 4G phone the main image shows in under 2 seconds.
+- **Reduced motion:** people who turn on "reduce motion" in their phone or computer settings see no animation.
+- **Firefox:** it gets the same entrances and exits through a small backup script (`app/ScrollFx.tsx`).
+
+## Put it online
+
+Easiest: push this folder to GitHub, import it at vercel.com (free), then connect your domain in Vercel's settings.
