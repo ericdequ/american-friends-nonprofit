@@ -179,7 +179,10 @@ export const site = {
       partner: "[Partner organization name]",
       body: "A convoy of vehicles loaded with medical supplies, driving from Western Europe into Ukraine to restock clinics and hospitals that need it most.",
       goal: "[$XX,XXX goal]",
-      image: "", // optional: put a photo in /public and write "/images/photo-name.webp"
+      // Optional photo: any file in public/, e.g. "/actual/photo-name.jpg". "" shows a placeholder.
+      // This one is from an earlier aid delivery. Swap it for a caravan photo when you have one.
+      image: "/actual/aid-semi-truck-loaded-with-supplies.jpg",
+      imageAlt: "A semi-truck loaded with boxes of aid supplies",
     },
     {
       title: "[Next project]",
@@ -188,8 +191,85 @@ export const site = {
       body: "[One or two sentences on what this project does and who it helps.]",
       goal: "",
       image: "",
+      imageAlt: "",
     },
   ],
+
+  // ---------- Why it matters (real photos from Ukraine) ----------
+  // Photos live in public/actual/. To swap one, change the file name.
+  // Exactly 4 photos: 1st and 4th show tall, 2nd and 3rd show wide.
+  impact: {
+    eyebrow: "Why it matters",
+    title: "The war is still hitting homes, shops and streets.",
+    body: "These photos were taken in Ukraine by [our volunteers / partners]. Families are living with damaged homes, broken windows and hours-long power cuts. Your gift helps them get through it and rebuild.",
+    cta: "Help families rebuild",
+    photos: [
+      {
+        src: "/actual/damage-gutted-apartment-building.jpg",
+        alt: "An apartment building with its windows blown out and upper floors gutted",
+      },
+      {
+        src: "/actual/damage-burned-office-building-street.jpg",
+        alt: "A long, fire-blackened office building along a city street",
+      },
+      {
+        src: "/actual/damage-burned-cars.jpg",
+        alt: "Two burned-out cars in front of a destroyed shopping center",
+      },
+      {
+        src: "/actual/damage-house-with-blown-out-windows.jpg",
+        alt: "A home with its windows blown out and covered in plastic sheeting",
+      },
+    ],
+  },
+
+  // ---------- From the field (photo gallery) ----------
+  // Real photos from Ukraine. Any photo in public/actual/ can go here; see the
+  // photo list in README.md. Six photos fill the grid next to the video.
+  field: {
+    eyebrow: "From the field",
+    title: "Real people, real deliveries",
+    intro: "Photos and video from volunteers and partners on the ground in Ukraine.",
+    // Short silent clip that plays on a loop. Set src to "" to hide it.
+    video: {
+      src: "/videos/aid-loading-van.mp4",
+      poster: "/videos/aid-loading-van-poster.jpg",
+      alt: "Video: volunteers move boxes of supplies into a humanitarian van with a pallet jack",
+      caption: "Loading a humanitarian van",
+    },
+    photos: [
+      {
+        src: "/actual/aid-volunteer-carrying-boxes-to-van.jpg",
+        alt: "A volunteer carries a stack of three boxes to a white van",
+        caption: "Loading up for a delivery",
+      },
+      {
+        src: "/actual/team-volunteers-with-stacked-aid-boxes.jpg",
+        alt: "Volunteers stand in a hallway stacked high with boxes of supplies",
+        caption: "Supplies ready to go out",
+      },
+      {
+        src: "/actual/aid-volunteer-with-flag-at-unloaded-truck.jpg",
+        alt: "A smiling volunteer holds a Ukrainian flag in front of an empty truck",
+        caption: "Truck unloaded, flag up",
+      },
+      {
+        src: "/actual/training-first-aid-casualty-practice.jpg",
+        alt: "Volunteers practice treating a mock casualty on the floor with an emergency blanket",
+        caption: "First-aid training",
+      },
+      {
+        src: "/actual/cleanup-volunteers-clearing-debris.jpg",
+        alt: "Volunteers clear old mattresses and broken furniture out of a building in the snow",
+        caption: "Clearing out a building in winter",
+      },
+      {
+        src: "/actual/aid-truck-packed-with-equipment.jpg",
+        alt: "The back of a truck packed with wrapped equipment and boxes",
+        caption: "Packed and ready to roll",
+      },
+    ],
+  },
 
   // ---------- Partner ----------
   partner: {
@@ -197,6 +277,8 @@ export const site = {
     name: "[Partner organization name]",
     body: "[Short description of the Ukrainian partner organization: who they are, how long they’ve worked, and what they do. Because it’s a Ukrainian organization, U.S. donors can’t deduct gifts made to it directly. Giving through American Friends makes that possible.]",
     url: "",
+    // Small picture under the partner name ("" to hide). A partner logo or team photo works well here.
+    image: "/stock/us-and-ukraine-flags-on-poles.jpg",
   },
 
   // ---------- Board / team ----------

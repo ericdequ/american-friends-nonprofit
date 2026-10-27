@@ -39,3 +39,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# raw WhatsApp exports and duplicates (not for the website)
+/originals/
+# raw videos (about 26 MB); the site uses the short cut in public/videos/
+/public/actual/videos/

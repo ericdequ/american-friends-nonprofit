@@ -39,7 +39,7 @@ Everything below is a placeholder on the site right now. Each item lists **what 
 | --- | --- | --- |
 | 12 | Fundraising goal (e.g. "$25,000 goal") | `projects` → caravan `goal` |
 | 13 | Dates and route (where it starts and which cities it reaches) | `projects` → caravan `body` |
-| 14 | A photo (supplies, vehicles, or the team) | Put it in `public/images/`, then set `image: "/images/caravan.webp"` |
+| 14 | A caravan photo (a photo from an earlier aid delivery is shown for now) | Put it in `public/actual/`, then set the caravan's `image: "/actual/photo-name.jpg"` |
 | 15 | Status once it starts: `"Upcoming"`, `"Active"` or `"Completed"` | `projects` → caravan `status` |
 
 ### 🟢 Nice to have
@@ -80,6 +80,43 @@ Everything below is a placeholder on the site right now. Each item lists **what 
 | `app/opengraph-image.alt.txt` | Description of the preview card for screen readers |
 
 The original full-size artwork is kept in `public/` with its original file names, as `.webp` (about 10× smaller than the PNGs). To add a new photo, convert it to WebP first (e.g. at squoosh.app), or drop in a JPG/PNG and it still works.
+
+**Real photos** are picked by file name in `content/site.ts`. To swap one, change the name there.
+
+| Section | Edit in `content/site.ts` | Files |
+| --- | --- | --- |
+| "Why it matters" (4 photos of war damage) | `impact.photos` | `public/actual/damage-*.jpg` |
+| "From the field" (video + 6 photos) | `field.video`, `field.photos` | `public/actual/`, `public/videos/aid-loading-van.mp4` |
+| Medical Supply Caravan card | `projects` → `image` | `public/actual/aid-semi-truck-loaded-with-supplies.jpg` |
+| Picture under the partner name | `partner.image` | `public/stock/us-and-ukraine-flags-on-poles.jpg` |
+| Faint flag background in the Donate section | `app/page.tsx` | `public/stock/us-and-ukraine-flags-blended.jpg` |
+
+### Photo library (`public/actual/` and `public/stock/`)
+
+**`public/actual/`**: real photos from Ukraine, named for what they show. The first word groups them:
+
+| Starts with | What's in it |
+| --- | --- |
+| `aid-` | Trucks, vans and boxes of supplies being loaded and delivered |
+| `team-` | Volunteers with supplies, at dinner, in safety gear |
+| `training-` | First-aid training |
+| `cleanup-` | Clearing old mattresses and furniture out of a building in the snow |
+| `damage-` | Burned shopping centers, offices, apartment blocks, homes and cars |
+| `kyiv-` | The display of destroyed Russian vehicles on St. Michael's Square |
+| `mosque-` | A mosque with strike damage (craters, broken ceiling) |
+| `memorial-`, `city-`, `misc-` | A street memorial, street views, a power-cut schedule screenshot |
+
+Before using these on the site:
+
+- `team-building-wooden-frames-WATERMARKED.jpg` has a photographer's watermark. Get permission, or don't use it.
+- `mosque-people-praying.jpg` shows people at prayer, and `memorial-toys-and-candles-on-rubble.jpg` is a memorial with children's toys. Both are sensitive; ask before using them.
+- Faces are recognizable in the `team-`, `aid-` and `training-` photos. Check that the people shown are OK with being on the site.
+
+The raw videos are in `public/actual/videos/` and are **not** in git (about 26 MB). The site uses a 10-second cut, `public/videos/aid-loading-van.mp4`. Don't publish the two files named `DO-NOT-USE-…`: one shows a strike, and one is TV news footage with a channel's watermark.
+
+**`public/stock/`**: stock images. They're tiny (240 pixels tall), so they look blurry at any real size. Only two are used, in places where that doesn't show. To use others, download the full-size versions from the stock site and check the license. The two camouflage-net images (`*-camouflage-net.jpg`) show military support, which doesn't fit a humanitarian charity.
+
+The original WhatsApp zips and exact duplicates are in `originals/` (not in git). `originals/rename-log.tsv` lists each file's old and new name.
 
 **Stays PNG/JPG on purpose:** `app/icon.png`, `app/apple-icon.png`, `app/opengraph-image.jpg` and `app/twitter-image.jpg`. Browser tabs, iPhones and link previews in texts and social apps need those formats.
 

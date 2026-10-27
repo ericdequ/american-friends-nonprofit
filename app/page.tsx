@@ -10,6 +10,7 @@ import logoImage from "@/public/images/logo.webp";
 import volunteersImage from "@/public/images/volunteers.webp";
 import { site } from "@/content/site";
 import { organizationJsonLd } from "@/content/seo";
+import FieldVideo from "./FieldVideo";
 import MobileMenu from "./MobileMenu";
 import ScrollFx from "./ScrollFx";
 import DonateModal from "./donate/DonateModal";
@@ -295,6 +296,51 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Why it matters: real photos of war damage */}
+        <section id="why" className="relative overflow-hidden bg-night text-white">
+          <div
+            className="glow pointer-events-none absolute -left-40 top-1/3 h-[26rem] w-[26rem] rounded-full bg-ua-blue/30 blur-3xl"
+            aria-hidden
+          />
+          <div className="relative mx-auto grid max-w-6xl items-center gap-12 px-4 py-20 sm:px-6 md:py-28 lg:grid-cols-[1fr_1.15fr] lg:gap-16">
+            <div>
+              <SectionHeading dark eyebrow={site.impact.eyebrow} title={site.impact.title} intro={site.impact.body} />
+              <a
+                {...donateLink()}
+                className="reveal mt-8 inline-flex rounded-full bg-ua-yellow px-7 py-3.5 text-sm font-semibold text-ink shadow-[0_8px_24px_-10px_rgb(255_213_0/0.7)] transition hover:bg-[#ffe14d] active:scale-[0.97]"
+              >
+                {site.impact.cta}
+              </a>
+            </div>
+            {/* Two staggered columns: tall + wide on the left, wide + tall on the right */}
+            <div className="grid grid-cols-2 items-start gap-3 sm:gap-4">
+              {[0, 1].map((col) => (
+                <div key={col} className={`grid gap-3 sm:gap-4 ${col === 1 ? "mt-10" : ""}`}>
+                  {site.impact.photos
+                    .filter((_, i) => i % 2 === col)
+                    .map((photo, row) => (
+                      <div
+                        key={photo.src}
+                        className={`reveal relative overflow-hidden rounded-2xl bg-white/5 ring-1 ring-white/10 ${
+                          (col + row) % 2 === 0 ? "aspect-[3/4]" : "aspect-[4/3]"
+                        }`}
+                        style={stagger(row * 2 + col)}
+                      >
+                        <Image
+                          src={photo.src}
+                          alt={photo.alt}
+                          fill
+                          sizes="(min-width: 1024px) 300px, 50vw"
+                          className="reveal-image object-cover"
+                        />
+                      </div>
+                    ))}
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* How it works */}
         <section id="how" className="border-y border-line bg-sand">
           <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 md:py-28">
@@ -352,7 +398,7 @@ export default function Home() {
                   <div className="relative aspect-[16/9]">
                     <Image
                       src={project.image}
-                      alt=""
+                      alt={project.imageAlt}
                       fill
                       sizes="(min-width: 768px) 50vw, 100vw"
                       className="object-cover"
@@ -413,6 +459,11 @@ export default function Home() {
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.18em] text-ua-blue">{site.partner.title}</p>
               <h3 className="mt-3 font-display text-2xl font-semibold">{site.partner.name}</h3>
+              {site.partner.image && (
+                <div className="relative mt-6 aspect-[565/240] max-w-xs overflow-hidden rounded-2xl">
+                  <Image src={site.partner.image} alt="" fill sizes="320px" className="object-cover" />
+                </div>
+              )}
             </div>
             <div>
               <p className="leading-relaxed text-muted">{site.partner.body}</p>
@@ -430,9 +481,51 @@ export default function Home() {
           </div>
         </section>
 
+        {/* From the field: real photo + video gallery */}
+        <section id="field" className="border-y border-line bg-sand">
+          <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 md:py-28">
+            <SectionHeading eyebrow={site.field.eyebrow} title={site.field.title} intro={site.field.intro} />
+            <div className="mt-12 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+              {site.field.video.src && (
+                <figure className="reveal relative row-span-2 overflow-hidden rounded-2xl bg-ink">
+                  <FieldVideo src={site.field.video.src} poster={site.field.video.poster} label={site.field.video.alt} />
+                  <figcaption className="pointer-events-none absolute inset-x-0 bottom-0 bg-linear-to-t from-black/75 to-transparent p-3 pt-12 text-sm font-medium text-white sm:p-4 sm:pt-14">
+                    {site.field.video.caption}
+                  </figcaption>
+                </figure>
+              )}
+              {site.field.photos.map((photo, i) => (
+                <figure
+                  key={photo.src}
+                  className="reveal group relative aspect-[3/4] overflow-hidden rounded-2xl bg-line"
+                  style={stagger(i + 1)}
+                >
+                  <Image
+                    src={photo.src}
+                    alt={photo.alt}
+                    fill
+                    sizes="(min-width: 1024px) 270px, 50vw"
+                    className="object-cover transition-transform duration-700 ease-out-soft group-hover:scale-[1.04]"
+                  />
+                  <figcaption className="absolute inset-x-0 bottom-0 bg-linear-to-t from-black/75 to-transparent p-3 pt-12 text-sm font-medium text-white sm:p-4 sm:pt-14">
+                    {photo.caption}
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* Donate */}
         <section id="donate" className="relative overflow-hidden bg-navy text-white">
-          <FlagStripe />
+          <Image
+            src="/stock/us-and-ukraine-flags-blended.jpg"
+            alt=""
+            fill
+            sizes="100vw"
+            className="pointer-events-none object-cover opacity-[0.14] mix-blend-luminosity blur-[3px]"
+          />
+          <FlagStripe className="relative" />
           <div
             className="glow pointer-events-none absolute -right-40 top-10 h-[28rem] w-[28rem] rounded-full bg-ua-blue/40 blur-3xl"
             aria-hidden
