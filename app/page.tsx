@@ -1,13 +1,10 @@
 /**
- * The home page layout. To change words or links, edit content/site.ts,
- * not this file. To swap a picture, replace the file in public/images/
- * with a new one using the same file name.
+ * The home page layout. To change words, links or photos, edit
+ * content/site.ts (and content/gallery.ts for the photo gallery),
+ * not this file.
  */
 import type { CSSProperties, ReactNode } from "react";
 import Image from "next/image";
-import heroImage from "@/public/images/hero.webp";
-import logoImage from "@/public/images/logo.webp";
-import volunteersImage from "@/public/images/volunteers.webp";
 import { site } from "@/content/site";
 import { organizationJsonLd } from "@/content/seo";
 import { gallery } from "@/content/gallery";
@@ -254,22 +251,28 @@ export default function Home() {
               </ul>
             </div>
 
-            {/* Illustration: under the text on phones, bleeding off the right edge on desktop */}
+            {/* Photo: under the text on phones, bleeding off the right edge on desktop */}
             <div className="-mx-4 sm:-mx-6 lg:static lg:mx-0">
-              <div className="float-in relative aspect-[1152/941] lg:absolute lg:inset-y-0 lg:right-0 lg:aspect-auto lg:w-[56%]">
-                <div className="drift absolute inset-0">
+              <div className="float-in relative aspect-[4/3] overflow-hidden bg-sand md:aspect-[16/9] lg:absolute lg:inset-y-0 lg:right-0 lg:aspect-auto lg:w-[52%]">
+                {/* Taller than its frame so the slow scroll drift never shows an edge */}
+                <div className="drift absolute inset-x-0 top-0 -bottom-[18%]">
                   <Image
-                    src={heroImage}
-                    alt="A volunteer hands a box of aid to a Ukrainian mother and her young son"
+                    src={site.hero.image}
+                    alt={site.hero.imageAlt}
                     fill
                     preload
-                    placeholder="blur"
-                    sizes="(min-width: 1024px) 56vw, 100vw"
-                    className="object-cover object-left"
+                    sizes="(min-width: 1024px) 52vw, 100vw"
+                    className="object-cover"
+                    style={{ objectPosition: site.hero.imageFocus }}
                   />
                 </div>
+                {/* Soft edges that blend the photo into the page */}
                 <div
                   className="absolute inset-x-0 bottom-0 h-20 bg-linear-to-t from-paper to-transparent"
+                  aria-hidden
+                />
+                <div
+                  className="absolute inset-y-0 left-0 hidden w-1/4 bg-linear-to-r from-paper via-paper/60 to-transparent lg:block"
                   aria-hidden
                 />
               </div>
@@ -278,16 +281,17 @@ export default function Home() {
         </section>
         <FlagStripe />
 
-        {/* Mission + logo */}
+        {/* Mission + photo */}
         <section id="mission" className="mx-auto max-w-6xl px-4 py-20 sm:px-6 md:py-28">
           <div className="grid items-center gap-12 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
-            <div className="reveal overflow-hidden rounded-3xl bg-night shadow-[0_30px_60px_-30px_rgb(10_35_72/0.6)] ring-1 ring-black/5">
+            <div className="reveal relative aspect-[4/3] overflow-hidden rounded-3xl bg-night shadow-[0_30px_60px_-30px_rgb(10_35_72/0.6)] ring-1 ring-black/5">
               <Image
-                src={logoImage}
-                alt={`${site.name} logo: a child holding a box of aid inside a heart made of the American, Ukrainian and European flags`}
-                placeholder="blur"
+                src={site.mission.image}
+                alt={site.mission.imageAlt}
+                fill
                 sizes="(min-width: 1024px) 520px, 100vw"
-                className="reveal-image h-auto w-full"
+                className="reveal-image object-cover"
+                style={{ objectPosition: site.mission.imageFocus }}
               />
             </div>
             <div>
@@ -361,13 +365,14 @@ export default function Home() {
               intro="We’re the U.S. home for donations to humanitarian work in Ukraine."
             />
             <div className="mt-12 grid items-center gap-10 lg:grid-cols-[1.15fr_1fr] lg:gap-14">
-              <div className="reveal overflow-hidden rounded-3xl shadow-[0_30px_60px_-30px_rgb(10_35_72/0.45)]">
+              <div className="reveal relative aspect-[4/3] overflow-hidden rounded-3xl bg-line shadow-[0_30px_60px_-30px_rgb(10_35_72/0.45)]">
                 <Image
-                  src={volunteersImage}
-                  alt="Volunteers packing blankets and school supplies into boxes marked with hearts"
-                  placeholder="blur"
+                  src={site.stepsImage}
+                  alt={site.stepsImageAlt}
+                  fill
                   sizes="(min-width: 1024px) 560px, 100vw"
-                  className="reveal-image h-auto w-full"
+                  className="reveal-image object-cover"
+                  style={{ objectPosition: site.stepsImageFocus }}
                 />
               </div>
               <ol className="grid gap-4">

@@ -144,6 +144,11 @@ export const site = {
     body: "We raise funds here in the United States and put them to work through trusted partners on the ground: medical supplies, relief and recovery for Ukrainian families.",
     // Short checkmark points under the buttons. Keep each one to a few words.
     points: ["U.S. nonprofit", "Board-reviewed projects", "Updates for every donor"],
+    // Big photo on the right (under the text on phones). Any photo in public/actual/ works.
+    // imageFocus: which part of the photo to keep when it's cropped ("50% 30%" = middle, upper third).
+    image: "/actual/aid-volunteer-carrying-boxes-to-van.jpg",
+    imageAlt: "A volunteer carries a stack of aid boxes to a delivery van in Ukraine",
+    imageFocus: "50% 18%",
   },
 
   // ---------- Mission ----------
@@ -152,9 +157,17 @@ export const site = {
     // Replace with the board-approved mission statement.
     statement:
       "[Draft] American Friends for Ukraine connects American generosity with proven humanitarian work in Ukraine. We raise tax-deductible donations in the U.S., vet the projects we support, and report back to donors on how every dollar is used.",
+    // Photo next to the mission statement.
+    image: "/actual/aid-volunteer-with-flag-at-unloaded-truck.jpg",
+    imageAlt: "A volunteer holds a Ukrainian flag in front of a truck after unloading aid",
+    imageFocus: "50% 35%",
   },
 
   // ---------- How it works ----------
+  // Photo next to the three steps.
+  stepsImage: "/actual/team-volunteers-with-stacked-aid-boxes.jpg",
+  stepsImageAlt: "Volunteers in a hallway stacked high with boxes of supplies",
+  stepsImageFocus: "50% 40%",
   steps: [
     {
       title: "You give",

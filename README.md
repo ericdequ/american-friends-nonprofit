@@ -15,6 +15,8 @@ Then open http://localhost:3000.
 
 ## ✅ Information we still need
 
+**For the board:** [`BOARD-INFO-NEEDED.md`](BOARD-INFO-NEEDED.md) is a plain-language version of this list, with the decisions the board needs to make. Send them that file.
+
 Everything below is a placeholder on the site right now. Each item lists **what we need**, **where it shows up**, and **the line to edit** in [`content/site.ts`](content/site.ts).
 
 ### 🔴 Needed before launch
@@ -70,13 +72,12 @@ Everything below is a placeholder on the site right now. Each item lists **what 
 - Any link left as `""` shows a "Coming soon" button instead of a broken link.
 - To add a project, FAQ or board member: copy one `{ ... }` block, paste it below, and change the text. Mind the commas.
 
-**To swap a picture:** replace the file in `public/images/` with a new one, **keeping the same file name**.
+**To swap a picture:** every photo on the site is a real photo from `public/actual/`, picked by file name (see the table under "Real photos" below). Change the name in `content/site.ts` or `content/gallery.ts`. Each big photo also has an `imageFocus` setting that picks which part stays in view when it's cropped: `"50% 30%"` means centered, upper third.
+
+The earlier AI illustrations (`public/images/hero.webp`, `volunteers.webp`, `logo.webp` and the PNGs in `public/`) are no longer shown on the site. They're kept in case you want them back. `logo.webp` is still sent to Google as the organization's logo.
 
 | File | Used for |
 | --- | --- |
-| `public/images/hero.webp` | Big illustration at the top |
-| `public/images/logo.webp` | Logo next to the mission statement |
-| `public/images/volunteers.webp` | "How it works" picture |
 | `app/opengraph-image.jpg` | Preview card when the link is shared in texts, Facebook, LinkedIn, WhatsApp, etc. (1200×630) |
 | `app/twitter-image.jpg` | Same preview card for X / Twitter |
 | `app/opengraph-image.alt.txt` | Description of the preview card for screen readers |
@@ -87,6 +88,9 @@ The original full-size artwork is kept in `public/` with its original file names
 
 | Where on the site | Edit in | Files |
 | --- | --- | --- |
+| Big photo at the top | `content/site.ts` → `hero.image` | `public/actual/aid-volunteer-carrying-boxes-to-van.jpg` |
+| Photo next to the mission statement | `content/site.ts` → `mission.image` | `public/actual/aid-volunteer-with-flag-at-unloaded-truck.jpg` |
+| "How it works" photo | `content/site.ts` → `stepsImage` | `public/actual/team-volunteers-with-stacked-aid-boxes.jpg` |
 | "Why it matters" (4 photos of war damage) | `content/site.ts` → `impact.photos` | `public/actual/damage-*.jpg` |
 | Photo gallery: "Photos from Ukraine" on the home page and the `/gallery` page | `content/gallery.ts` | `public/actual/`, `public/videos/aid-loading-van.mp4` |
 | Medical Supply Caravan card | `content/site.ts` → `projects` → `image` | `public/actual/aid-semi-truck-loaded-with-supplies.jpg` |
@@ -127,7 +131,7 @@ Before using these on the site:
 
 The raw videos are in `public/actual/videos/` and are **not** in git (about 26 MB). The site uses a 10-second cut, `public/videos/aid-loading-van.mp4`. Don't publish the two files named `DO-NOT-USE-…`: one shows a strike, and one is TV news footage with a channel's watermark.
 
-**`public/stock/`**: stock images. They're tiny (240 pixels tall), so they look blurry at any real size. That's why the AI illustrations stay in the big spots (top of the page, "How it works"). The stock images only fill small spaces, where the low resolution doesn't show. To use them bigger, or to replace the AI illustrations, download the full-size versions from the stock site and check the license. The two camouflage-net images (`*-camouflage-net.jpg`) show military support, which doesn't fit a humanitarian charity.
+**`public/stock/`**: stock images. They're tiny (240 pixels tall), so they look blurry at any real size, which is why the big spots use real photos instead. The stock images only fill small spaces, where the low resolution doesn't show. To use them bigger, download the full-size versions from the stock site and check the license. The two camouflage-net images (`*-camouflage-net.jpg`) show military support, which doesn't fit a humanitarian charity.
 
 The original WhatsApp zips and exact duplicates are in `originals/` (not in git). `originals/rename-log.tsv` lists each file's old and new name.
 
