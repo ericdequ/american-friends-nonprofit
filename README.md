@@ -55,6 +55,8 @@ Everything below is a placeholder on the site right now. Each item lists **what 
 | 22 | Final logo, if it changes | replace `public/images/logo.webp` (same file name) |
 | 23 | Google Search Console verification code (see "Google & link sharing" below) | `seo.googleVerification` |
 | 24 | X / Twitter handle, if you make one | `seo.twitterHandle` |
+| 25 | Check the photo captions are accurate, and add places or dates if you know them | `content/gallery.ts` (not `site.ts`) |
+| 26 | Who took the "Why it matters" photos (volunteers or partners?) | `impact.body` |
 
 **At launch:** set `showPreviewBanner: false` to remove the "Preview site" bar at the top.
 
@@ -81,15 +83,26 @@ Everything below is a placeholder on the site right now. Each item lists **what 
 
 The original full-size artwork is kept in `public/` with its original file names, as `.webp` (about 10× smaller than the PNGs). To add a new photo, convert it to WebP first (e.g. at squoosh.app), or drop in a JPG/PNG and it still works.
 
-**Real photos** are picked by file name in `content/site.ts`. To swap one, change the name there.
+**Real photos** are picked by file name. To swap one, change the name where it's listed below.
 
-| Section | Edit in `content/site.ts` | Files |
+| Where on the site | Edit in | Files |
 | --- | --- | --- |
-| "Why it matters" (4 photos of war damage) | `impact.photos` | `public/actual/damage-*.jpg` |
-| "From the field" (video + 6 photos) | `field.video`, `field.photos` | `public/actual/`, `public/videos/aid-loading-van.mp4` |
-| Medical Supply Caravan card | `projects` → `image` | `public/actual/aid-semi-truck-loaded-with-supplies.jpg` |
-| Picture under the partner name | `partner.image` | `public/stock/us-and-ukraine-flags-on-poles.jpg` |
+| "Why it matters" (4 photos of war damage) | `content/site.ts` → `impact.photos` | `public/actual/damage-*.jpg` |
+| Photo gallery: "Photos from Ukraine" on the home page and the `/gallery` page | `content/gallery.ts` | `public/actual/`, `public/videos/aid-loading-van.mp4` |
+| Medical Supply Caravan card | `content/site.ts` → `projects` → `image` | `public/actual/aid-semi-truck-loaded-with-supplies.jpg` |
+| Picture under the partner name | `content/site.ts` → `partner.image` | `public/stock/us-and-ukraine-flags-on-poles.jpg` |
+| Picture next to the FAQ (computers only) | `content/site.ts` → `faqImage` | `public/stock/helping-hands-with-ukraine-flag.jpg` |
+| "Spread the word" band | `content/site.ts` → `share` | `public/stock/stand-with-ukraine-ribbon-heart-banner.jpg` |
 | Faint flag background in the Donate section | `app/page.tsx` | `public/stock/us-and-ukraine-flags-blended.jpg` |
+| Link preview when `/gallery` is shared | — | `app/gallery/opengraph-image.jpg`, `app/gallery/twitter-image.jpg` (1200×630) |
+
+### Photo gallery (`content/gallery.ts`)
+
+The home page shows the first 8 photos, plus a yellow "Donate" tile. The `/gallery` page shows them all. Both have filter buttons (All, Relief & rebuilding, The damage), and tapping a photo opens a full-screen viewer with **Share** and **Donate** buttons.
+
+- **Add a photo:** put it in `public/actual/`, then copy one `{ ... }` block in `content/gallery.ts` and change `src`, `alt`, `caption` and `category` (`"relief"` or `"damage"`).
+- **Order:** photos show in the order they're listed. The first one shows big.
+- **Share links:** every photo has its own link, made from its file name, e.g. `/gallery#damage-burned-cars`. `/gallery#damage` and `/gallery#relief` open the gallery with that filter on.
 
 ### Photo library (`public/actual/` and `public/stock/`)
 
@@ -114,7 +127,7 @@ Before using these on the site:
 
 The raw videos are in `public/actual/videos/` and are **not** in git (about 26 MB). The site uses a 10-second cut, `public/videos/aid-loading-van.mp4`. Don't publish the two files named `DO-NOT-USE-…`: one shows a strike, and one is TV news footage with a channel's watermark.
 
-**`public/stock/`**: stock images. They're tiny (240 pixels tall), so they look blurry at any real size. Only two are used, in places where that doesn't show. To use others, download the full-size versions from the stock site and check the license. The two camouflage-net images (`*-camouflage-net.jpg`) show military support, which doesn't fit a humanitarian charity.
+**`public/stock/`**: stock images. They're tiny (240 pixels tall), so they look blurry at any real size. That's why the AI illustrations stay in the big spots (top of the page, "How it works"). The stock images only fill small spaces, where the low resolution doesn't show. To use them bigger, or to replace the AI illustrations, download the full-size versions from the stock site and check the license. The two camouflage-net images (`*-camouflage-net.jpg`) show military support, which doesn't fit a humanitarian charity.
 
 The original WhatsApp zips and exact duplicates are in `originals/` (not in git). `originals/rename-log.tsv` lists each file's old and new name.
 

@@ -203,6 +203,9 @@ export const site = {
     title: "The war is still hitting homes, shops and streets.",
     body: "These photos were taken in Ukraine by [our volunteers / partners]. Families are living with damaged homes, broken windows and hours-long power cuts. Your gift helps them get through it and rebuild.",
     cta: "Help families rebuild",
+    // Link under the button to the full photo gallery, showing only damage photos.
+    moreLabel: "See all photos of the damage",
+    moreHref: "/gallery#damage",
     photos: [
       {
         src: "/actual/damage-gutted-apartment-building.jpg",
@@ -223,53 +226,8 @@ export const site = {
     ],
   },
 
-  // ---------- From the field (photo gallery) ----------
-  // Real photos from Ukraine. Any photo in public/actual/ can go here; see the
-  // photo list in README.md. Six photos fill the grid next to the video.
-  field: {
-    eyebrow: "From the field",
-    title: "Real people, real deliveries",
-    intro: "Photos and video from volunteers and partners on the ground in Ukraine.",
-    // Short silent clip that plays on a loop. Set src to "" to hide it.
-    video: {
-      src: "/videos/aid-loading-van.mp4",
-      poster: "/videos/aid-loading-van-poster.jpg",
-      alt: "Video: volunteers move boxes of supplies into a humanitarian van with a pallet jack",
-      caption: "Loading a humanitarian van",
-    },
-    photos: [
-      {
-        src: "/actual/aid-volunteer-carrying-boxes-to-van.jpg",
-        alt: "A volunteer carries a stack of three boxes to a white van",
-        caption: "Loading up for a delivery",
-      },
-      {
-        src: "/actual/team-volunteers-with-stacked-aid-boxes.jpg",
-        alt: "Volunteers stand in a hallway stacked high with boxes of supplies",
-        caption: "Supplies ready to go out",
-      },
-      {
-        src: "/actual/aid-volunteer-with-flag-at-unloaded-truck.jpg",
-        alt: "A smiling volunteer holds a Ukrainian flag in front of an empty truck",
-        caption: "Truck unloaded, flag up",
-      },
-      {
-        src: "/actual/training-first-aid-casualty-practice.jpg",
-        alt: "Volunteers practice treating a mock casualty on the floor with an emergency blanket",
-        caption: "First-aid training",
-      },
-      {
-        src: "/actual/cleanup-volunteers-clearing-debris.jpg",
-        alt: "Volunteers clear old mattresses and broken furniture out of a building in the snow",
-        caption: "Clearing out a building in winter",
-      },
-      {
-        src: "/actual/aid-truck-packed-with-equipment.jpg",
-        alt: "The back of a truck packed with wrapped equipment and boxes",
-        caption: "Packed and ready to roll",
-      },
-    ],
-  },
+  // ---------- Photo gallery ----------
+  // The photos and their captions are in content/gallery.ts.
 
   // ---------- Partner ----------
   partner: {
@@ -289,6 +247,8 @@ export const site = {
   ],
 
   // ---------- FAQ ----------
+  // Picture under the "Questions donors ask" heading on computers ("" to hide).
+  faqImage: "/stock/helping-hands-with-ukraine-flag.jpg",
   faq: [
     {
       q: "Is my donation tax-deductible?",
@@ -307,6 +267,16 @@ export const site = {
       a: "[Fill in once known, e.g. “We are volunteer-run, and X% of donations go directly to projects.”]",
     },
   ],
+
+  // ---------- Spread the word (band near the bottom of the page) ----------
+  // For people who can't give right now: share buttons that send friends to the photo gallery.
+  share: {
+    eyebrow: "Spread the word",
+    title: "Can’t give right now? Share their story.",
+    body: "Every share helps more people see what’s happening in Ukraine, and who’s helping. Send the photos to a friend or post them.",
+    galleryLabel: "See the photos",
+    image: "/stock/stand-with-ukraine-ribbon-heart-banner.jpg",
+  },
 
   // ---------- Social links (leave "" to hide) ----------
   social: {

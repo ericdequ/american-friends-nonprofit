@@ -4,10 +4,21 @@ import { useEffect, useRef } from "react";
 
 /**
  * A short silent clip that loops while it's on screen and pauses when it
- * scrolls away. People who turn on "reduce motion" get normal play controls
- * instead of autoplay.
+ * scrolls away. People who turn on "reduce motion" don't get autoplay: they
+ * see normal play controls, or just the still picture when `showControls`
+ * is false (e.g. inside a clickable gallery tile).
  */
-export default function FieldVideo({ src, poster, label }: { src: string; poster: string; label: string }) {
+export default function FieldVideo({
+  src,
+  poster,
+  label,
+  showControls = true,
+}: {
+  src: string;
+  poster: string;
+  label: string;
+  showControls?: boolean;
+}) {
   const ref = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
@@ -16,7 +27,7 @@ export default function FieldVideo({ src, poster, label }: { src: string; poster
     video.muted = true; // browsers only allow autoplay for muted video
 
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      video.controls = true;
+      video.controls = showControls;
       return;
     }
 
@@ -29,7 +40,7 @@ export default function FieldVideo({ src, poster, label }: { src: string; poster
     );
     io.observe(video);
     return () => io.disconnect();
-  }, []);
+  }, [showControls]);
 
   return (
     <video

@@ -125,6 +125,56 @@ html:has(dialog[open]) {
 }
 
 /* ============================================================
+   Photo viewer (Gallery.tsx): fills the whole screen, fades in.
+   ============================================================ */
+
+.lightbox {
+  width: 100vw;
+  height: 100dvh;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: var(--color-night);
+  color: #fff;
+  opacity: 0;
+  transition:
+    opacity 0.25s ease,
+    overlay 0.3s allow-discrete,
+    display 0.3s allow-discrete;
+}
+.lightbox[open] {
+  opacity: 1;
+}
+@starting-style {
+  .lightbox[open] {
+    opacity: 0;
+  }
+}
+.lightbox::backdrop {
+  background: transparent;
+}
+
+/* Photos ease in when the page loads and when you switch filters. */
+@keyframes gallery-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .gallery-fade > li {
+    animation: gallery-in 0.55s var(--ease-out-soft) both;
+    animation-delay: calc(var(--i, 0) * 35ms);
+  }
+}
+
+/* ============================================================
    Animations
    - .rise / .word / .float-in : play once when the page loads.
    - .reveal       : slides up as it scrolls in, fades as it leaves.

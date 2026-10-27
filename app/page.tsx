@@ -10,15 +10,18 @@ import logoImage from "@/public/images/logo.webp";
 import volunteersImage from "@/public/images/volunteers.webp";
 import { site } from "@/content/site";
 import { organizationJsonLd } from "@/content/seo";
-import FieldVideo from "./FieldVideo";
+import { gallery } from "@/content/gallery";
+import Gallery from "./Gallery";
 import MobileMenu from "./MobileMenu";
 import ScrollFx from "./ScrollFx";
 import DonateModal from "./donate/DonateModal";
+import ShareButtons from "./donate/ShareButtons";
 
 const nav = [
   { href: "#mission", label: "Mission" },
   { href: "#how", label: "How it works" },
   { href: "#projects", label: "Projects" },
+  { href: "#gallery", label: "Photos" },
   { href: "#faq", label: "FAQ" },
   { href: "#contact", label: "Contact" },
 ];
@@ -180,7 +183,7 @@ export default function Home() {
               </span>
             </span>
           </a>
-          <nav className="hidden items-center gap-7 text-sm font-medium text-muted md:flex">
+          <nav className="hidden items-center gap-7 text-sm font-medium text-muted lg:flex">
             {nav.map((item) => (
               <a key={item.href} href={item.href} className="transition-colors hover:text-ink">
                 {item.label}
@@ -305,12 +308,20 @@ export default function Home() {
           <div className="relative mx-auto grid max-w-6xl items-center gap-12 px-4 py-20 sm:px-6 md:py-28 lg:grid-cols-[1fr_1.15fr] lg:gap-16">
             <div>
               <SectionHeading dark eyebrow={site.impact.eyebrow} title={site.impact.title} intro={site.impact.body} />
-              <a
-                {...donateLink()}
-                className="reveal mt-8 inline-flex rounded-full bg-ua-yellow px-7 py-3.5 text-sm font-semibold text-ink shadow-[0_8px_24px_-10px_rgb(255_213_0/0.7)] transition hover:bg-[#ffe14d] active:scale-[0.97]"
-              >
-                {site.impact.cta}
-              </a>
+              <div className="reveal mt-8 flex flex-wrap items-center gap-x-6 gap-y-4">
+                <a
+                  {...donateLink()}
+                  className="inline-flex rounded-full bg-ua-yellow px-7 py-3.5 text-sm font-semibold text-ink shadow-[0_8px_24px_-10px_rgb(255_213_0/0.7)] transition hover:bg-[#ffe14d] active:scale-[0.97]"
+                >
+                  {site.impact.cta}
+                </a>
+                <a
+                  href={site.impact.moreHref}
+                  className="text-sm font-semibold text-white/80 underline decoration-white/30 underline-offset-4 transition hover:text-white hover:decoration-ua-yellow"
+                >
+                  {site.impact.moreLabel} →
+                </a>
+              </div>
             </div>
             {/* Two staggered columns: tall + wide on the left, wide + tall on the right */}
             <div className="grid grid-cols-2 items-start gap-3 sm:gap-4">
@@ -481,37 +492,12 @@ export default function Home() {
           </div>
         </section>
 
-        {/* From the field: real photo + video gallery */}
-        <section id="field" className="border-y border-line bg-sand">
+        {/* Photo gallery: damage and relief (photos in content/gallery.ts) */}
+        <section id="gallery" className="border-y border-line bg-sand">
           <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 md:py-28">
-            <SectionHeading eyebrow={site.field.eyebrow} title={site.field.title} intro={site.field.intro} />
-            <div className="mt-12 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
-              {site.field.video.src && (
-                <figure className="reveal relative row-span-2 overflow-hidden rounded-2xl bg-ink">
-                  <FieldVideo src={site.field.video.src} poster={site.field.video.poster} label={site.field.video.alt} />
-                  <figcaption className="pointer-events-none absolute inset-x-0 bottom-0 bg-linear-to-t from-black/75 to-transparent p-3 pt-12 text-sm font-medium text-white sm:p-4 sm:pt-14">
-                    {site.field.video.caption}
-                  </figcaption>
-                </figure>
-              )}
-              {site.field.photos.map((photo, i) => (
-                <figure
-                  key={photo.src}
-                  className="reveal group relative aspect-[3/4] overflow-hidden rounded-2xl bg-line"
-                  style={stagger(i + 1)}
-                >
-                  <Image
-                    src={photo.src}
-                    alt={photo.alt}
-                    fill
-                    sizes="(min-width: 1024px) 270px, 50vw"
-                    className="object-cover transition-transform duration-700 ease-out-soft group-hover:scale-[1.04]"
-                  />
-                  <figcaption className="absolute inset-x-0 bottom-0 bg-linear-to-t from-black/75 to-transparent p-3 pt-12 text-sm font-medium text-white sm:p-4 sm:pt-14">
-                    {photo.caption}
-                  </figcaption>
-                </figure>
-              ))}
+            <SectionHeading eyebrow={gallery.eyebrow} title={gallery.title} intro={gallery.intro} />
+            <div className="mt-10">
+              <Gallery limit={8} donateAfter={6} moreHref="/gallery" />
             </div>
           </div>
         </section>
@@ -628,7 +614,20 @@ export default function Home() {
         {/* FAQ */}
         <section id="faq" className="border-t border-line bg-sand">
           <div className="mx-auto grid max-w-6xl gap-10 px-4 py-20 sm:px-6 md:grid-cols-[1fr_2fr] md:py-24">
-            <SectionHeading eyebrow="FAQ" title="Questions donors ask" />
+            <div>
+              <SectionHeading eyebrow="FAQ" title="Questions donors ask" />
+              {site.faqImage && (
+                <div className="reveal relative mt-8 hidden aspect-[3/2] max-w-[18rem] overflow-hidden rounded-2xl shadow-[0_24px_50px_-28px_rgb(10_35_72/0.5)] md:block">
+                  <Image src={site.faqImage} alt="" fill sizes="288px" className="object-cover" />
+                </div>
+              )}
+              <p className="reveal mt-6 text-sm text-muted">
+                Still have a question?{" "}
+                <a href={`mailto:${site.email}`} className="font-semibold text-ua-blue hover:underline">
+                  Email us
+                </a>
+              </p>
+            </div>
             <div className="divide-y divide-line self-start rounded-2xl border border-line bg-white">
               {site.faq.map((item, i) => (
                 <details key={item.q} className="reveal group p-6" style={stagger(i)}>
@@ -642,6 +641,36 @@ export default function Home() {
                 </details>
               ))}
             </div>
+          </div>
+        </section>
+
+        {/* Spread the word: sharing for people who can't give right now */}
+        <section id="share" className="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-20">
+          <div className="reveal relative grid items-center gap-8 overflow-hidden rounded-3xl bg-[#141b2e] p-7 text-white shadow-[0_30px_60px_-30px_rgb(10_35_72/0.6)] sm:p-10 md:grid-cols-[1.15fr_1fr] md:gap-10 md:p-12">
+            <div className="relative">
+              <p className="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.18em] text-ua-yellow">
+                <span className="h-px w-8 bg-current" aria-hidden />
+                {site.share.eyebrow}
+              </p>
+              <h2 className="mt-3 text-balance font-display text-3xl font-semibold tracking-tight sm:text-4xl">
+                {site.share.title}
+              </h2>
+              <p className="mt-4 leading-relaxed text-white/70">{site.share.body}</p>
+              <div className="mt-7">
+                <ShareButtons path="/gallery" dark />
+              </div>
+              <a
+                href="/gallery"
+                className="mt-6 inline-flex text-sm font-semibold text-white/80 underline decoration-white/30 underline-offset-4 transition hover:text-white hover:decoration-ua-yellow"
+              >
+                {site.share.galleryLabel} →
+              </a>
+            </div>
+            {site.share.image && (
+              <div className="relative -mx-7 -mb-7 aspect-[541/240] sm:-mx-10 sm:-mb-10 md:m-0">
+                <Image src={site.share.image} alt="Stand with Ukraine" fill sizes="(min-width: 768px) 460px, 100vw" className="object-contain" />
+              </div>
+            )}
           </div>
         </section>
       </main>
