@@ -1,23 +1,24 @@
 /**
- * The home page layout. To change words or links, edit content/site.ts,
- * not this file. To swap a picture, replace the file in public/images/
- * with a new one using the same file name.
+ * The home page layout. To change words, links or photos, edit
+ * content/site.ts (and content/gallery.ts for the photo gallery),
+ * not this file.
  */
 import type { CSSProperties, ReactNode } from "react";
 import Image from "next/image";
-import heroImage from "@/public/images/hero.webp";
-import logoImage from "@/public/images/logo.webp";
-import volunteersImage from "@/public/images/volunteers.webp";
 import { site } from "@/content/site";
 import { organizationJsonLd } from "@/content/seo";
+import { gallery } from "@/content/gallery";
+import Gallery from "./Gallery";
 import MobileMenu from "./MobileMenu";
 import ScrollFx from "./ScrollFx";
 import DonateModal from "./donate/DonateModal";
+import ShareButtons from "./donate/ShareButtons";
 
 const nav = [
   { href: "#mission", label: "Mission" },
   { href: "#how", label: "How it works" },
   { href: "#projects", label: "Projects" },
+  { href: "#gallery", label: "Photos" },
   { href: "#faq", label: "FAQ" },
   { href: "#contact", label: "Contact" },
 ];
@@ -179,7 +180,7 @@ export default function Home() {
               </span>
             </span>
           </a>
-          <nav className="hidden items-center gap-7 text-sm font-medium text-muted md:flex">
+          <nav className="hidden items-center gap-7 text-sm font-medium text-muted lg:flex">
             {nav.map((item) => (
               <a key={item.href} href={item.href} className="transition-colors hover:text-ink">
                 {item.label}
@@ -250,22 +251,28 @@ export default function Home() {
               </ul>
             </div>
 
-            {/* Illustration: under the text on phones, bleeding off the right edge on desktop */}
+            {/* Photo: under the text on phones, bleeding off the right edge on desktop */}
             <div className="-mx-4 sm:-mx-6 lg:static lg:mx-0">
-              <div className="float-in relative aspect-[1152/941] lg:absolute lg:inset-y-0 lg:right-0 lg:aspect-auto lg:w-[56%]">
-                <div className="drift absolute inset-0">
+              <div className="float-in relative aspect-[4/3] overflow-hidden bg-sand md:aspect-[16/9] lg:absolute lg:inset-y-0 lg:right-0 lg:aspect-auto lg:w-[52%]">
+                {/* Taller than its frame so the slow scroll drift never shows an edge */}
+                <div className="drift absolute inset-x-0 top-0 -bottom-[18%]">
                   <Image
-                    src={heroImage}
-                    alt="A volunteer hands a box of aid to a Ukrainian mother and her young son"
+                    src={site.hero.image}
+                    alt={site.hero.imageAlt}
                     fill
                     preload
-                    placeholder="blur"
-                    sizes="(min-width: 1024px) 56vw, 100vw"
-                    className="object-cover object-left"
+                    sizes="(min-width: 1024px) 52vw, 100vw"
+                    className="object-cover"
+                    style={{ objectPosition: site.hero.imageFocus }}
                   />
                 </div>
+                {/* Soft edges that blend the photo into the page */}
                 <div
                   className="absolute inset-x-0 bottom-0 h-20 bg-linear-to-t from-paper to-transparent"
+                  aria-hidden
+                />
+                <div
+                  className="absolute inset-y-0 left-0 hidden w-1/4 bg-linear-to-r from-paper via-paper/60 to-transparent lg:block"
                   aria-hidden
                 />
               </div>
@@ -274,16 +281,17 @@ export default function Home() {
         </section>
         <FlagStripe />
 
-        {/* Mission + logo */}
+        {/* Mission + photo */}
         <section id="mission" className="mx-auto max-w-6xl px-4 py-20 sm:px-6 md:py-28">
           <div className="grid items-center gap-12 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
-            <div className="reveal overflow-hidden rounded-3xl bg-night shadow-[0_30px_60px_-30px_rgb(10_35_72/0.6)] ring-1 ring-black/5">
+            <div className="reveal relative aspect-[4/3] overflow-hidden rounded-3xl bg-night shadow-[0_30px_60px_-30px_rgb(10_35_72/0.6)] ring-1 ring-black/5">
               <Image
-                src={logoImage}
-                alt={`${site.name} logo: a child holding a box of aid inside a heart made of the American, Ukrainian and European flags`}
-                placeholder="blur"
+                src={site.mission.image}
+                alt={site.mission.imageAlt}
+                fill
                 sizes="(min-width: 1024px) 520px, 100vw"
-                className="reveal-image h-auto w-full"
+                className="reveal-image object-cover"
+                style={{ objectPosition: site.mission.imageFocus }}
               />
             </div>
             <div>
@@ -291,6 +299,59 @@ export default function Home() {
               <p className="reveal mt-6 font-display text-2xl leading-snug text-ink/90 sm:text-[1.7rem]">
                 {site.mission.statement}
               </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Why it matters: real photos of war damage */}
+        <section id="why" className="relative overflow-hidden bg-night text-white">
+          <div
+            className="glow pointer-events-none absolute -left-40 top-1/3 h-[26rem] w-[26rem] rounded-full bg-ua-blue/30 blur-3xl"
+            aria-hidden
+          />
+          <div className="relative mx-auto grid max-w-6xl items-center gap-12 px-4 py-20 sm:px-6 md:py-28 lg:grid-cols-[1fr_1.15fr] lg:gap-16">
+            <div>
+              <SectionHeading dark eyebrow={site.impact.eyebrow} title={site.impact.title} intro={site.impact.body} />
+              <div className="reveal mt-8 flex flex-wrap items-center gap-x-6 gap-y-4">
+                <a
+                  {...donateLink()}
+                  className="inline-flex rounded-full bg-ua-yellow px-7 py-3.5 text-sm font-semibold text-ink shadow-[0_8px_24px_-10px_rgb(255_213_0/0.7)] transition hover:bg-[#ffe14d] active:scale-[0.97]"
+                >
+                  {site.impact.cta}
+                </a>
+                <a
+                  href={site.impact.moreHref}
+                  className="text-sm font-semibold text-white/80 underline decoration-white/30 underline-offset-4 transition hover:text-white hover:decoration-ua-yellow"
+                >
+                  {site.impact.moreLabel} →
+                </a>
+              </div>
+            </div>
+            {/* Two staggered columns: tall + wide on the left, wide + tall on the right */}
+            <div className="grid grid-cols-2 items-start gap-3 sm:gap-4">
+              {[0, 1].map((col) => (
+                <div key={col} className={`grid gap-3 sm:gap-4 ${col === 1 ? "mt-10" : ""}`}>
+                  {site.impact.photos
+                    .filter((_, i) => i % 2 === col)
+                    .map((photo, row) => (
+                      <div
+                        key={photo.src}
+                        className={`reveal relative overflow-hidden rounded-2xl bg-white/5 ring-1 ring-white/10 ${
+                          (col + row) % 2 === 0 ? "aspect-[3/4]" : "aspect-[4/3]"
+                        }`}
+                        style={stagger(row * 2 + col)}
+                      >
+                        <Image
+                          src={photo.src}
+                          alt={photo.alt}
+                          fill
+                          sizes="(min-width: 1024px) 300px, 50vw"
+                          className="reveal-image object-cover"
+                        />
+                      </div>
+                    ))}
+                </div>
+              ))}
             </div>
           </div>
         </section>
@@ -304,13 +365,14 @@ export default function Home() {
               intro="We’re the U.S. home for donations to humanitarian work in Ukraine."
             />
             <div className="mt-12 grid items-center gap-10 lg:grid-cols-[1.15fr_1fr] lg:gap-14">
-              <div className="reveal overflow-hidden rounded-3xl shadow-[0_30px_60px_-30px_rgb(10_35_72/0.45)]">
+              <div className="reveal relative aspect-[4/3] overflow-hidden rounded-3xl bg-line shadow-[0_30px_60px_-30px_rgb(10_35_72/0.45)]">
                 <Image
-                  src={volunteersImage}
-                  alt="Volunteers packing blankets and school supplies into boxes marked with hearts"
-                  placeholder="blur"
+                  src={site.stepsImage}
+                  alt={site.stepsImageAlt}
+                  fill
                   sizes="(min-width: 1024px) 560px, 100vw"
-                  className="reveal-image h-auto w-full"
+                  className="reveal-image object-cover"
+                  style={{ objectPosition: site.stepsImageFocus }}
                 />
               </div>
               <ol className="grid gap-4">
@@ -352,7 +414,7 @@ export default function Home() {
                   <div className="relative aspect-[16/9]">
                     <Image
                       src={project.image}
-                      alt=""
+                      alt={project.imageAlt}
                       fill
                       sizes="(min-width: 768px) 50vw, 100vw"
                       className="object-cover"
@@ -413,6 +475,11 @@ export default function Home() {
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.18em] text-ua-blue">{site.partner.title}</p>
               <h3 className="mt-3 font-display text-2xl font-semibold">{site.partner.name}</h3>
+              {site.partner.image && (
+                <div className="relative mt-6 aspect-[565/240] max-w-xs overflow-hidden rounded-2xl">
+                  <Image src={site.partner.image} alt="" fill sizes="320px" className="object-cover" />
+                </div>
+              )}
             </div>
             <div>
               <p className="leading-relaxed text-muted">{site.partner.body}</p>
@@ -430,9 +497,26 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Photo gallery: damage and relief (photos in content/gallery.ts) */}
+        <section id="gallery" className="border-y border-line bg-sand">
+          <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 md:py-28">
+            <SectionHeading eyebrow={gallery.eyebrow} title={gallery.title} intro={gallery.intro} />
+            <div className="mt-10">
+              <Gallery limit={8} donateAfter={6} moreHref="/gallery" />
+            </div>
+          </div>
+        </section>
+
         {/* Donate */}
         <section id="donate" className="relative overflow-hidden bg-navy text-white">
-          <FlagStripe />
+          <Image
+            src="/stock/us-and-ukraine-flags-blended.jpg"
+            alt=""
+            fill
+            sizes="100vw"
+            className="pointer-events-none object-cover opacity-[0.14] mix-blend-luminosity blur-[3px]"
+          />
+          <FlagStripe className="relative" />
           <div
             className="glow pointer-events-none absolute -right-40 top-10 h-[28rem] w-[28rem] rounded-full bg-ua-blue/40 blur-3xl"
             aria-hidden
@@ -535,7 +619,20 @@ export default function Home() {
         {/* FAQ */}
         <section id="faq" className="border-t border-line bg-sand">
           <div className="mx-auto grid max-w-6xl gap-10 px-4 py-20 sm:px-6 md:grid-cols-[1fr_2fr] md:py-24">
-            <SectionHeading eyebrow="FAQ" title="Questions donors ask" />
+            <div>
+              <SectionHeading eyebrow="FAQ" title="Questions donors ask" />
+              {site.faqImage && (
+                <div className="reveal relative mt-8 hidden aspect-[3/2] max-w-[18rem] overflow-hidden rounded-2xl shadow-[0_24px_50px_-28px_rgb(10_35_72/0.5)] md:block">
+                  <Image src={site.faqImage} alt="" fill sizes="288px" className="object-cover" />
+                </div>
+              )}
+              <p className="reveal mt-6 text-sm text-muted">
+                Still have a question?{" "}
+                <a href={`mailto:${site.email}`} className="font-semibold text-ua-blue hover:underline">
+                  Email us
+                </a>
+              </p>
+            </div>
             <div className="divide-y divide-line self-start rounded-2xl border border-line bg-white">
               {site.faq.map((item, i) => (
                 <details key={item.q} className="reveal group p-6" style={stagger(i)}>
@@ -549,6 +646,36 @@ export default function Home() {
                 </details>
               ))}
             </div>
+          </div>
+        </section>
+
+        {/* Spread the word: sharing for people who can't give right now */}
+        <section id="share" className="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-20">
+          <div className="reveal relative grid items-center gap-8 overflow-hidden rounded-3xl bg-[#141b2e] p-7 text-white shadow-[0_30px_60px_-30px_rgb(10_35_72/0.6)] sm:p-10 md:grid-cols-[1.15fr_1fr] md:gap-10 md:p-12">
+            <div className="relative">
+              <p className="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.18em] text-ua-yellow">
+                <span className="h-px w-8 bg-current" aria-hidden />
+                {site.share.eyebrow}
+              </p>
+              <h2 className="mt-3 text-balance font-display text-3xl font-semibold tracking-tight sm:text-4xl">
+                {site.share.title}
+              </h2>
+              <p className="mt-4 leading-relaxed text-white/70">{site.share.body}</p>
+              <div className="mt-7">
+                <ShareButtons path="/gallery" dark />
+              </div>
+              <a
+                href="/gallery"
+                className="mt-6 inline-flex text-sm font-semibold text-white/80 underline decoration-white/30 underline-offset-4 transition hover:text-white hover:decoration-ua-yellow"
+              >
+                {site.share.galleryLabel} →
+              </a>
+            </div>
+            {site.share.image && (
+              <div className="relative -mx-7 -mb-7 aspect-[541/240] sm:-mx-10 sm:-mb-10 md:m-0">
+                <Image src={site.share.image} alt="Stand with Ukraine" fill sizes="(min-width: 768px) 460px, 100vw" className="object-contain" />
+              </div>
+            )}
           </div>
         </section>
       </main>

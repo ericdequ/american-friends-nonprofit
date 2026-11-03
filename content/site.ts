@@ -144,6 +144,11 @@ export const site = {
     body: "We raise funds here in the United States and put them to work through trusted partners on the ground: medical supplies, relief and recovery for Ukrainian families.",
     // Short checkmark points under the buttons. Keep each one to a few words.
     points: ["U.S. nonprofit", "Board-reviewed projects", "Updates for every donor"],
+    // Big photo on the right (under the text on phones). Any photo in public/actual/ works.
+    // imageFocus: which part of the photo to keep when it's cropped ("50% 30%" = middle, upper third).
+    image: "/actual/aid-volunteer-carrying-boxes-to-van.jpg",
+    imageAlt: "A volunteer carries a stack of aid boxes to a delivery van in Ukraine",
+    imageFocus: "50% 18%",
   },
 
   // ---------- Mission ----------
@@ -152,9 +157,17 @@ export const site = {
     // Replace with the board-approved mission statement.
     statement:
       "[Draft] American Friends for Ukraine connects American generosity with proven humanitarian work in Ukraine. We raise tax-deductible donations in the U.S., vet the projects we support, and report back to donors on how every dollar is used.",
+    // Photo next to the mission statement.
+    image: "/actual/aid-volunteer-with-flag-at-unloaded-truck.jpg",
+    imageAlt: "A volunteer holds a Ukrainian flag in front of a truck after unloading aid",
+    imageFocus: "50% 35%",
   },
 
   // ---------- How it works ----------
+  // Photo next to the three steps.
+  stepsImage: "/actual/team-volunteers-with-stacked-aid-boxes.jpg",
+  stepsImageAlt: "Volunteers in a hallway stacked high with boxes of supplies",
+  stepsImageFocus: "50% 40%",
   steps: [
     {
       title: "You give",
@@ -179,7 +192,10 @@ export const site = {
       partner: "[Partner organization name]",
       body: "A convoy of vehicles loaded with medical supplies, driving from Western Europe into Ukraine to restock clinics and hospitals that need it most.",
       goal: "[$XX,XXX goal]",
-      image: "", // optional: put a photo in /public and write "/images/photo-name.webp"
+      // Optional photo: any file in public/, e.g. "/actual/photo-name.jpg". "" shows a placeholder.
+      // This one is from an earlier aid delivery. Swap it for a caravan photo when you have one.
+      image: "/actual/aid-semi-truck-loaded-with-supplies.jpg",
+      imageAlt: "A semi-truck loaded with boxes of aid supplies",
     },
     {
       title: "[Next project]",
@@ -188,8 +204,43 @@ export const site = {
       body: "[One or two sentences on what this project does and who it helps.]",
       goal: "",
       image: "",
+      imageAlt: "",
     },
   ],
+
+  // ---------- Why it matters (real photos from Ukraine) ----------
+  // Photos live in public/actual/. To swap one, change the file name.
+  // Exactly 4 photos: 1st and 4th show tall, 2nd and 3rd show wide.
+  impact: {
+    eyebrow: "Why it matters",
+    title: "The war is still hitting homes, shops and streets.",
+    body: "These photos were taken in Ukraine by [our volunteers / partners]. Families are living with damaged homes, broken windows and hours-long power cuts. Your gift helps them get through it and rebuild.",
+    cta: "Help families rebuild",
+    // Link under the button to the full photo gallery, showing only damage photos.
+    moreLabel: "See all photos of the damage",
+    moreHref: "/gallery#damage",
+    photos: [
+      {
+        src: "/actual/damage-gutted-apartment-building.jpg",
+        alt: "An apartment building with its windows blown out and upper floors gutted",
+      },
+      {
+        src: "/actual/damage-burned-office-building-street.jpg",
+        alt: "A long, fire-blackened office building along a city street",
+      },
+      {
+        src: "/actual/damage-burned-cars.jpg",
+        alt: "Two burned-out cars in front of a destroyed shopping center",
+      },
+      {
+        src: "/actual/damage-house-with-blown-out-windows.jpg",
+        alt: "A home with its windows blown out and covered in plastic sheeting",
+      },
+    ],
+  },
+
+  // ---------- Photo gallery ----------
+  // The photos and their captions are in content/gallery.ts.
 
   // ---------- Partner ----------
   partner: {
@@ -197,6 +248,8 @@ export const site = {
     name: "[Partner organization name]",
     body: "[Short description of the Ukrainian partner organization: who they are, how long they’ve worked, and what they do. Because it’s a Ukrainian organization, U.S. donors can’t deduct gifts made to it directly. Giving through American Friends makes that possible.]",
     url: "",
+    // Small picture under the partner name ("" to hide). A partner logo or team photo works well here.
+    image: "/stock/us-and-ukraine-flags-on-poles.jpg",
   },
 
   // ---------- Board / team ----------
@@ -207,6 +260,8 @@ export const site = {
   ],
 
   // ---------- FAQ ----------
+  // Picture under the "Questions donors ask" heading on computers ("" to hide).
+  faqImage: "/stock/helping-hands-with-ukraine-flag.jpg",
   faq: [
     {
       q: "Is my donation tax-deductible?",
@@ -225,6 +280,16 @@ export const site = {
       a: "[Fill in once known, e.g. “We are volunteer-run, and X% of donations go directly to projects.”]",
     },
   ],
+
+  // ---------- Spread the word (band near the bottom of the page) ----------
+  // For people who can't give right now: share buttons that send friends to the photo gallery.
+  share: {
+    eyebrow: "Spread the word",
+    title: "Can’t give right now? Share their story.",
+    body: "Every share helps more people see what’s happening in Ukraine, and who’s helping. Send the photos to a friend or post them.",
+    galleryLabel: "See the photos",
+    image: "/stock/stand-with-ukraine-ribbon-heart-banner.jpg",
+  },
 
   // ---------- Social links (leave "" to hide) ----------
   social: {

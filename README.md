@@ -15,6 +15,8 @@ Then open http://localhost:3000.
 
 ## ✅ Information we still need
 
+**For the board:** [`BOARD-INFO-NEEDED.md`](BOARD-INFO-NEEDED.md) is a plain-language version of this list, with the decisions the board needs to make. Send them that file.
+
 Everything below is a placeholder on the site right now. Each item lists **what we need**, **where it shows up**, and **the line to edit** in [`content/site.ts`](content/site.ts).
 
 ### 🔴 Needed before launch
@@ -39,7 +41,7 @@ Everything below is a placeholder on the site right now. Each item lists **what 
 | --- | --- | --- |
 | 12 | Fundraising goal (e.g. "$25,000 goal") | `projects` → caravan `goal` |
 | 13 | Dates and route (where it starts and which cities it reaches) | `projects` → caravan `body` |
-| 14 | A photo (supplies, vehicles, or the team) | Put it in `public/images/`, then set `image: "/images/caravan.webp"` |
+| 14 | A caravan photo (a photo from an earlier aid delivery is shown for now) | Put it in `public/actual/`, then set the caravan's `image: "/actual/photo-name.jpg"` |
 | 15 | Status once it starts: `"Upcoming"`, `"Active"` or `"Completed"` | `projects` → caravan `status` |
 
 ### 🟢 Nice to have
@@ -55,6 +57,8 @@ Everything below is a placeholder on the site right now. Each item lists **what 
 | 22 | Final logo, if it changes | replace `public/images/logo.webp` (same file name) |
 | 23 | Google Search Console verification code (see "Google & link sharing" below) | `seo.googleVerification` |
 | 24 | X / Twitter handle, if you make one | `seo.twitterHandle` |
+| 25 | Check the photo captions are accurate, and add places or dates if you know them | `content/gallery.ts` (not `site.ts`) |
+| 26 | Who took the "Why it matters" photos (volunteers or partners?) | `impact.body` |
 
 **At launch:** set `showPreviewBanner: false` to remove the "Preview site" bar at the top.
 
@@ -68,18 +72,68 @@ Everything below is a placeholder on the site right now. Each item lists **what 
 - Any link left as `""` shows a "Coming soon" button instead of a broken link.
 - To add a project, FAQ or board member: copy one `{ ... }` block, paste it below, and change the text. Mind the commas.
 
-**To swap a picture:** replace the file in `public/images/` with a new one, **keeping the same file name**.
+**To swap a picture:** every photo on the site is a real photo from `public/actual/`, picked by file name (see the table under "Real photos" below). Change the name in `content/site.ts` or `content/gallery.ts`. Each big photo also has an `imageFocus` setting that picks which part stays in view when it's cropped: `"50% 30%"` means centered, upper third.
+
+The earlier AI illustrations (`public/images/hero.webp`, `volunteers.webp`, `logo.webp` and the PNGs in `public/`) are no longer shown on the site. They're kept in case you want them back. `logo.webp` is still sent to Google as the organization's logo.
 
 | File | Used for |
 | --- | --- |
-| `public/images/hero.webp` | Big illustration at the top |
-| `public/images/logo.webp` | Logo next to the mission statement |
-| `public/images/volunteers.webp` | "How it works" picture |
 | `app/opengraph-image.jpg` | Preview card when the link is shared in texts, Facebook, LinkedIn, WhatsApp, etc. (1200×630) |
 | `app/twitter-image.jpg` | Same preview card for X / Twitter |
 | `app/opengraph-image.alt.txt` | Description of the preview card for screen readers |
 
 The original full-size artwork is kept in `public/` with its original file names, as `.webp` (about 10× smaller than the PNGs). To add a new photo, convert it to WebP first (e.g. at squoosh.app), or drop in a JPG/PNG and it still works.
+
+**Real photos** are picked by file name. To swap one, change the name where it's listed below.
+
+| Where on the site | Edit in | Files |
+| --- | --- | --- |
+| Big photo at the top | `content/site.ts` → `hero.image` | `public/actual/aid-volunteer-carrying-boxes-to-van.jpg` |
+| Photo next to the mission statement | `content/site.ts` → `mission.image` | `public/actual/aid-volunteer-with-flag-at-unloaded-truck.jpg` |
+| "How it works" photo | `content/site.ts` → `stepsImage` | `public/actual/team-volunteers-with-stacked-aid-boxes.jpg` |
+| "Why it matters" (4 photos of war damage) | `content/site.ts` → `impact.photos` | `public/actual/damage-*.jpg` |
+| Photo gallery: "Photos from Ukraine" on the home page and the `/gallery` page | `content/gallery.ts` | `public/actual/`, `public/videos/aid-loading-van.mp4` |
+| Medical Supply Caravan card | `content/site.ts` → `projects` → `image` | `public/actual/aid-semi-truck-loaded-with-supplies.jpg` |
+| Picture under the partner name | `content/site.ts` → `partner.image` | `public/stock/us-and-ukraine-flags-on-poles.jpg` |
+| Picture next to the FAQ (computers only) | `content/site.ts` → `faqImage` | `public/stock/helping-hands-with-ukraine-flag.jpg` |
+| "Spread the word" band | `content/site.ts` → `share` | `public/stock/stand-with-ukraine-ribbon-heart-banner.jpg` |
+| Faint flag background in the Donate section | `app/page.tsx` | `public/stock/us-and-ukraine-flags-blended.jpg` |
+| Link preview when `/gallery` is shared | — | `app/gallery/opengraph-image.jpg`, `app/gallery/twitter-image.jpg` (1200×630) |
+
+### Photo gallery (`content/gallery.ts`)
+
+The home page shows the first 8 photos, plus a yellow "Donate" tile. The `/gallery` page shows them all. Both have filter buttons (All, Relief & rebuilding, The damage), and tapping a photo opens a full-screen viewer with **Share** and **Donate** buttons.
+
+- **Add a photo:** put it in `public/actual/`, then copy one `{ ... }` block in `content/gallery.ts` and change `src`, `alt`, `caption` and `category` (`"relief"` or `"damage"`).
+- **Order:** photos show in the order they're listed. The first one shows big.
+- **Share links:** every photo has its own link, made from its file name, e.g. `/gallery#damage-burned-cars`. `/gallery#damage` and `/gallery#relief` open the gallery with that filter on.
+
+### Photo library (`public/actual/` and `public/stock/`)
+
+**`public/actual/`**: real photos from Ukraine, named for what they show. The first word groups them:
+
+| Starts with | What's in it |
+| --- | --- |
+| `aid-` | Trucks, vans and boxes of supplies being loaded and delivered |
+| `team-` | Volunteers with supplies, at dinner, in safety gear |
+| `training-` | First-aid training |
+| `cleanup-` | Clearing old mattresses and furniture out of a building in the snow |
+| `damage-` | Burned shopping centers, offices, apartment blocks, homes and cars |
+| `kyiv-` | The display of destroyed Russian vehicles on St. Michael's Square |
+| `mosque-` | A mosque with strike damage (craters, broken ceiling) |
+| `memorial-`, `city-`, `misc-` | A street memorial, street views, a power-cut schedule screenshot |
+
+Before using these on the site:
+
+- `team-building-wooden-frames-WATERMARKED.jpg` has a photographer's watermark. Get permission, or don't use it.
+- `mosque-people-praying.jpg` shows people at prayer, and `memorial-toys-and-candles-on-rubble.jpg` is a memorial with children's toys. Both are sensitive; ask before using them.
+- Faces are recognizable in the `team-`, `aid-` and `training-` photos. Check that the people shown are OK with being on the site.
+
+The raw videos are in `public/actual/videos/` and are **not** in git (about 26 MB). The site uses a 10-second cut, `public/videos/aid-loading-van.mp4`. Don't publish the two files named `DO-NOT-USE-…`: one shows a strike, and one is TV news footage with a channel's watermark.
+
+**`public/stock/`**: stock images. They're tiny (240 pixels tall), so they look blurry at any real size, which is why the big spots use real photos instead. The stock images only fill small spaces, where the low resolution doesn't show. To use them bigger, download the full-size versions from the stock site and check the license. The two camouflage-net images (`*-camouflage-net.jpg`) show military support, which doesn't fit a humanitarian charity.
+
+The original WhatsApp zips and exact duplicates are in `originals/` (not in git). `originals/rename-log.tsv` lists each file's old and new name.
 
 **Stays PNG/JPG on purpose:** `app/icon.png`, `app/apple-icon.png`, `app/opengraph-image.jpg` and `app/twitter-image.jpg`. Browser tabs, iPhones and link previews in texts and social apps need those formats.
 
