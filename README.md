@@ -78,9 +78,9 @@ The earlier AI illustrations (`public/images/hero.webp`, `volunteers.webp`, `log
 
 | File | Used for |
 | --- | --- |
-| `app/opengraph-image.jpg` | Preview card when the link is shared in texts, Facebook, LinkedIn, WhatsApp, etc. (1200×630) |
-| `app/twitter-image.jpg` | Same preview card for X / Twitter |
-| `app/opengraph-image.alt.txt` | Description of the preview card for screen readers |
+| `app/opengraph-image.tsx` | Preview card when the link is shared in texts, Facebook, LinkedIn, WhatsApp, etc. (1200×630) |
+| `app/twitter-image.tsx` | Same preview card for X / Twitter |
+| `app/ShareImage.tsx` | Shared brand-only card layout; each route exports its screen-reader description |
 
 The original full-size artwork is kept in `public/` with its original file names, as `.webp` (about 10× smaller than the PNGs). To add a new photo, convert it to WebP first (e.g. at squoosh.app), or drop in a JPG/PNG and it still works.
 
@@ -88,17 +88,25 @@ The original full-size artwork is kept in `public/` with its original file names
 
 | Where on the site | Edit in | Files |
 | --- | --- | --- |
-| Big photo at the top | `content/site.ts` → `hero.image` | `public/actual/aid-volunteer-carrying-boxes-to-van.jpg` |
+| Big photo at the top | `content/site.ts` → `hero.image` | `public/actual/team-volunteers-with-stacked-aid-boxes-privacy.jpg` |
 | Photo next to the mission statement | `content/site.ts` → `mission.image` | `public/actual/aid-volunteer-with-flag-at-unloaded-truck.jpg` |
-| "How it works" photo | `content/site.ts` → `stepsImage` | `public/actual/team-volunteers-with-stacked-aid-boxes.jpg` |
+| "How it works" photo | `content/site.ts` → `stepsImage` | `public/actual/team-volunteers-with-stacked-aid-boxes-privacy.jpg` |
 | "Why it matters" (4 photos of war damage) | `content/site.ts` → `impact.photos` | `public/actual/damage-*.jpg` |
-| Photo gallery: "Photos from Ukraine" on the home page and the `/gallery` page | `content/gallery.ts` | `public/actual/`, `public/videos/aid-loading-van.mp4` |
+| Photo gallery: "Photos from Ukraine" on the home page and the `/gallery` page | `content/gallery.ts` | `public/actual/` (approved photos only) |
 | Medical Supply Caravan card | `content/site.ts` → `projects` → `image` | `public/actual/aid-semi-truck-loaded-with-supplies.jpg` |
 | Picture under the partner name | `content/site.ts` → `partner.image` | `public/stock/us-and-ukraine-flags-on-poles.jpg` |
 | Picture next to the FAQ (computers only) | `content/site.ts` → `faqImage` | `public/stock/helping-hands-with-ukraine-flag.jpg` |
 | "Spread the word" band | `content/site.ts` → `share` | `public/stock/stand-with-ukraine-ribbon-heart-banner.jpg` |
 | Faint flag background in the Donate section | `app/page.tsx` | `public/stock/us-and-ukraine-flags-blended.jpg` |
-| Link preview when `/gallery` is shared | — | `app/gallery/opengraph-image.jpg`, `app/gallery/twitter-image.jpg` (1200×630) |
+| Link preview when `/gallery` is shared | — | `app/gallery/opengraph-image.tsx`, `app/gallery/twitter-image.tsx` (1200×630) |
+
+### Media privacy
+
+The hero, "How it works" section, and gallery use the privacy-edited group photo. Luke at the far left remains visible; the four other visible faces are blurred. The unedited group photo, its unused alternate, the logo-bearing van photo, and the van-loading video/poster are not shipped in `public/`. Keep these originals out of future deployments. The four social-preview routes use brand-only cards.
+
+These changes do not remove prior Git history, old deployment URLs, or copies already cached by social networks or browsers. After deployment, verify old asset URLs no longer serve the media and refresh cached social previews where needed.
+
+Run `npm run test:media`, `npm run lint`, and `npm run build` before publishing. Review the group photo at full size as well as its cropped placements.
 
 ### Photo gallery (`content/gallery.ts`)
 
@@ -129,13 +137,13 @@ Before using these on the site:
 - `mosque-people-praying.jpg` shows people at prayer, and `memorial-toys-and-candles-on-rubble.jpg` is a memorial with children's toys. Both are sensitive; ask before using them.
 - Faces are recognizable in the `team-`, `aid-` and `training-` photos. Check that the people shown are OK with being on the site.
 
-The raw videos are in `public/actual/videos/` and are **not** in git (about 26 MB). The site uses a 10-second cut, `public/videos/aid-loading-van.mp4`. Don't publish the two files named `DO-NOT-USE-…`: one shows a strike, and one is TV news footage with a channel's watermark.
+The raw videos are in `public/actual/videos/` and are **not** in git (about 26 MB). The van-loading video and its poster have been withdrawn from the website. Do not re-add them without approval. Don't publish the two files named `DO-NOT-USE-…`: one shows a strike, and one is TV news footage with a channel's watermark.
 
 **`public/stock/`**: stock images. They're tiny (240 pixels tall), so they look blurry at any real size, which is why the big spots use real photos instead. The stock images only fill small spaces, where the low resolution doesn't show. To use them bigger, download the full-size versions from the stock site and check the license. The two camouflage-net images (`*-camouflage-net.jpg`) show military support, which doesn't fit a humanitarian charity.
 
 The original WhatsApp zips and exact duplicates are in `originals/` (not in git). `originals/rename-log.tsv` lists each file's old and new name.
 
-**Stays PNG/JPG on purpose:** `app/icon.png`, `app/apple-icon.png`, `app/opengraph-image.jpg` and `app/twitter-image.jpg`. Browser tabs, iPhones and link previews in texts and social apps need those formats.
+**Stays PNG on purpose:** `app/icon.png` and `app/apple-icon.png`. Browser tabs and iPhones need these formats. The `opengraph-image.tsx` and `twitter-image.tsx` routes generate brand-only PNG link previews without withdrawn photos.
 
 ### Brand SVGs (`public/brand/`)
 

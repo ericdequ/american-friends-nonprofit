@@ -146,9 +146,9 @@ export const site = {
     points: ["U.S. nonprofit", "Board-reviewed projects", "Updates for every donor"],
     // Big photo on the right (under the text on phones). Any photo in public/actual/ works.
     // imageFocus: which part of the photo to keep when it's cropped ("50% 30%" = middle, upper third).
-    image: "/actual/aid-volunteer-carrying-boxes-to-van.jpg",
-    imageAlt: "A volunteer carries a stack of aid boxes to a delivery van in Ukraine",
-    imageFocus: "50% 18%",
+    image: "/actual/team-volunteers-with-stacked-aid-boxes-privacy.jpg",
+    imageAlt: "Volunteers beside boxes of aid supplies, with other faces blurred for privacy",
+    imageFocus: "25% 40%",
   },
 
   // ---------- Mission ----------
@@ -165,8 +165,8 @@ export const site = {
 
   // ---------- How it works ----------
   // Photo next to the three steps.
-  stepsImage: "/actual/team-volunteers-with-stacked-aid-boxes.jpg",
-  stepsImageAlt: "Volunteers in a hallway stacked high with boxes of supplies",
+  stepsImage: "/actual/team-volunteers-with-stacked-aid-boxes-privacy.jpg",
+  stepsImageAlt: "Volunteers in a hallway stacked high with supplies, with other faces blurred for privacy",
   stepsImageFocus: "50% 40%",
   steps: [
     {

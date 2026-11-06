@@ -14,7 +14,7 @@ const fraunces = Fraunces({
   subsets: ["latin"],
 });
 
-// Share images come from app/opengraph-image.jpg and app/twitter-image.jpg,
+// Brand-only share images come from app/opengraph-image.tsx and app/twitter-image.tsx,
 // and icons from app/icon.svg, app/icon.png and app/apple-icon.png.
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
