@@ -55,13 +55,6 @@ export const gallery = {
 
   items: [
     {
-      src: "/videos/aid-loading-van.mp4",
-      poster: "/videos/aid-loading-van-poster.jpg",
-      alt: "Video: volunteers move boxes of supplies into a humanitarian van with a pallet jack",
-      caption: "Loading a humanitarian van with supplies",
-      category: "relief",
-    },
-    {
       src: "/actual/damage-burned-shopping-center.jpg",
       alt: "A multi-story shopping center burned down to its frame",
       caption: "A burned-out shopping center",
@@ -104,20 +97,14 @@ export const gallery = {
       category: "damage",
     },
     {
-      src: "/actual/aid-volunteer-carrying-boxes-to-van.jpg",
-      alt: "A volunteer carries a stack of three boxes to a white van",
-      caption: "Loading up for a delivery",
-      category: "relief",
-    },
-    {
       src: "/actual/damage-gutted-apartment-building.jpg",
       alt: "An apartment building with its windows blown out and upper floors gutted",
       caption: "An apartment building with its upper floors destroyed",
       category: "damage",
     },
     {
-      src: "/actual/team-volunteers-with-stacked-aid-boxes.jpg",
-      alt: "Volunteers stand in a hallway stacked high with boxes of supplies",
+      src: "/actual/team-volunteers-with-stacked-aid-boxes-privacy.jpg",
+      alt: "Volunteers stand beside boxes of supplies, with other faces blurred for privacy",
       caption: "Volunteers with a hallway full of supplies",
       category: "relief",
     },
